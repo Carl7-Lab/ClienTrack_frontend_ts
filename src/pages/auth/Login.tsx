@@ -1,44 +1,37 @@
-import { Box, Button, Flex, Heading, Link, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Link, Text, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
 import useCustomTitle from '../../hooks/useCustomTitle';
-import { CheckboxCustom, InputCustom } from '../../components';
+import useLogin from '../../hooks/useLogin';
+import {
+  AlertCustom,
+  ButtonCustom,
+  CheckboxCustom,
+  HeadingCustom,
+  InputCustom,
+} from '../../components/authFormik';
 import { colors } from '../../styles/colors';
 
 const Login = () => {
   useCustomTitle('Iniciar Sesión | ClienTrack');
+  const { alert, initialValues, validationSchema, onSubmit } = useLogin();
+
+  const { msg, status } = alert;
+
   return (
     <>
-      <Box>
-        <Heading
-          mx={{ base: 0, sm: '40px', md: '60px' }}
-          py="20px"
-          as="h1"
-          textTransform="capitalize"
-          fontSize="50px"
-          color={colors.one}
-        >
-          Inicia sesión y administra tus <Text color={colors.gray[900]}>clientes</Text>
-        </Heading>
-      </Box>
+      <HeadingCustom head="Inicia sesión y administra tus">
+        <Text as="span" color={colors.gray[900]}>
+          clientes
+        </Text>
+      </HeadingCustom>
+
+      {msg && <AlertCustom status={status} msg={msg} />}
 
       <Box bg="white" p="15px" py="30px" rounded="md">
         <Formik
-          initialValues={{
-            email: '',
-            password: '',
-            rememberMe: false,
-          }}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-          validationSchema={Yup.object({
-            email: Yup.string()
-              .email('Correo no tiene un formato válido')
-              .required('Requerido'),
-            password: Yup.string().required('Requerido'),
-            remember: Yup.boolean(),
-          })}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
         >
           <Form>
             <VStack spacing={4} align="flex-start">
@@ -63,15 +56,7 @@ const Login = () => {
                 name="rememberMe"
               />
 
-              <Button
-                type="submit"
-                width="full"
-                backgroundColor="rgba(0, 35, 255, 1)"
-                color="white"
-                _hover={{ backgroundColor: 'rgba(0,34,255,0.5)' }}
-              >
-                Iniciar Sesión
-              </Button>
+              <ButtonCustom text="Iniciar Sesión" />
             </VStack>
           </Form>
         </Formik>

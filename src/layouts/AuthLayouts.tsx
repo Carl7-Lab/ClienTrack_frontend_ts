@@ -6,7 +6,7 @@ const AuthLayouts = () => {
     <>
       <Flex bg="gray.100" align="center" justify="center" minH="100vh">
         <Container
-          mx="auto"
+          mx={{ base: '10px', sm: 'auto', md: 'auto' }}
           mt={{ base: 0, sm: '5px', md: '20px' }}
           p="5px"
           justifyContent={{ md: 'center' }}

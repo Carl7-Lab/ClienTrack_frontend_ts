@@ -1,48 +1,33 @@
-import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+import { useParams } from 'react-router-dom';
+import { Box, Container, Link, Text } from '@chakra-ui/react';
 import useCustomTitle from '../../hooks/useCustomTitle';
+import { AlertCustom, HeadingCustom } from '../../components/authFormik';
 import { colors } from '../../styles/colors';
+import useConfirmAccount from '../../hooks/useConfirmAccount';
 
 const ConfirmAccount = () => {
   useCustomTitle('Confirmar Cuenta | ClienTrack');
+
+  const { id } = useParams();
+  const { alert } = useConfirmAccount(id);
+  const { msg, status } = alert;
+
   return (
     <>
-      <Box>
-        <Heading
-          mx={{ base: 0, sm: '40px', md: '50px' }}
-          py="20px"
-          as="h1"
-          textTransform="capitalize"
-          fontSize="50px"
-          color={colors.one}
-        >
-          Confirma tu <Text color={colors.gray[900]}>cuenta</Text>
-        </Heading>
-      </Box>
+      <HeadingCustom head="Tu cuenta ha sido">
+        <Text as="span" color={colors.gray[900]}>
+          confirmada
+        </Text>
+      </HeadingCustom>
 
       <Box bg="white" p="15px" py="30px" rounded="md">
-        <Formik
-          initialValues={{
-            email: '',
-          }}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-        >
-          <Form>
-            <VStack spacing={4} align="flex-start">
-              <Button
-                type="submit"
-                width="full"
-                backgroundColor="rgba(0, 35, 255, 1)"
-                color="white"
-                _hover={{ backgroundColor: 'rgba(0,34,255,0.5)' }}
-              >
-                Confirmar
-              </Button>
-            </VStack>
-          </Form>
-        </Formik>
+        {msg && <AlertCustom status={status} msg={msg} />}
+
+        <Container textAlign="center" justifyContent="center">
+          <Link color="teal.500" href="/">
+            Inicia Sesión
+          </Link>
+        </Container>
       </Box>
     </>
   );

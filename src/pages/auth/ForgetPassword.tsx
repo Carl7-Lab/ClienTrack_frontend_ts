@@ -1,40 +1,33 @@
-import { Box, Button, Flex, Heading, Link, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Link, Text, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
 import useCustomTitle from '../../hooks/useCustomTitle';
-import { InputCustom } from '../../components';
+import {
+  AlertCustom,
+  ButtonCustom,
+  HeadingCustom,
+  InputCustom,
+} from '../../components/authFormik';
 import { colors } from '../../styles/colors';
+import useForgetPassword from '../../hooks/useForgetPassword';
 
 const ForgetPassword = () => {
   useCustomTitle('Olvidó Contraseña | ClienTrack');
+  const { alert, initialValues, validationSchema, onSubmit } = useForgetPassword();
+  const { msg, status } = alert;
+
   return (
     <>
-      <Box>
-        <Heading
-          mx={{ base: 0, sm: '40px', md: '50px' }}
-          py="20px"
-          as="h1"
-          textTransform="capitalize"
-          fontSize="50px"
-          color={colors.one}
-        >
-          Recupera tu <Text color={colors.gray[900]}>acceso</Text>
-        </Heading>
-      </Box>
+      <HeadingCustom head="Recupera tu">
+        <Text color={colors.gray[900]}>acceso</Text>
+      </HeadingCustom>
+
+      {msg && <AlertCustom status={status} msg={msg} />}
 
       <Box bg="white" p="15px" py="30px" rounded="md">
         <Formik
-          initialValues={{
-            email: '',
-          }}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-          validationSchema={Yup.object({
-            email: Yup.string()
-              .email('Correo no tiene un formato válido')
-              .required('Requerido'),
-          })}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
         >
           <Form>
             <VStack spacing={4} align="flex-start">
@@ -46,15 +39,7 @@ const ForgetPassword = () => {
                 placeholder="Email"
               />
 
-              <Button
-                type="submit"
-                width="full"
-                backgroundColor="rgba(0, 35, 255, 1)"
-                color="white"
-                _hover={{ backgroundColor: 'rgba(0,34,255,0.5)' }}
-              >
-                Enviar Instrucciones
-              </Button>
+              <ButtonCustom text="Enviar Instrucciones" />
             </VStack>
           </Form>
         </Formik>
