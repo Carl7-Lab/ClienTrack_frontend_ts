@@ -1,7 +1,7 @@
 import { Box, Flex, Link, Text, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import useCustomTitle from '../../hooks/useCustomTitle';
-import useUserRegister from '../../hooks/useUserRegister';
+import useCustomTitle from '../../hooks/public/useCustomTitle';
+import useUserRegister from '../../hooks/public/useUserRegister';
 import {
   AlertCustom,
   ButtonCustom,

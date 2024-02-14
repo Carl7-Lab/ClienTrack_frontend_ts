@@ -1,11 +1,11 @@
 import { Box, Flex, Link, Text, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import useCustomTitle from '../../hooks/useCustomTitle';
-import useLogin from '../../hooks/useLogin';
+import useCustomTitle from '../../hooks/public/useCustomTitle';
+import useLogin from '../../hooks/public/useLogin';
 import {
   AlertCustom,
   ButtonCustom,
-  CheckboxCustom,
+  // CheckboxCustom,
   HeadingCustom,
   InputCustom,
 } from '../../components/authFormik';
@@ -50,11 +50,11 @@ const Login = () => {
                 placeholder="Password"
               />
 
-              <CheckboxCustom
+              {/* <CheckboxCustom
                 label="Recordar Contraseña"
                 id="rememberMe"
                 name="rememberMe"
-              />
+              /> */}
 
               <ButtonCustom text="Iniciar Sesión" />
             </VStack>

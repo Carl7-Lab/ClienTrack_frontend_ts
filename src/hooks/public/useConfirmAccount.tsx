@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../../config/clientAxios';
 import useAlert from './useAlert';
 
 const useConfirmAccount = (id: string | undefined) => {
