@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import useAlert from './useAlert';
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../../config/clientAxios';
+import usePublic from './usePublic';
+import { useNavigate } from 'react-router-dom';
 
 interface ValuesProps {
   email: string;
@@ -10,6 +12,9 @@ interface ValuesProps {
 
 const useLogin = () => {
   const { alert, viewAlert } = useAlert();
+  const { setAuth } = usePublic();
+
+  const navigate = useNavigate();
 
   const initialValues: ValuesProps = {
     email: '',
@@ -27,6 +32,9 @@ const useLogin = () => {
     try {
       const { data } = await clientAxios.post('/users/login', values);
       localStorage.setItem('token', data.data.user.token);
+      setAuth(data.data.user);
+      navigate('/login');
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       viewAlert({ alert: { status: 'error', msg: error.response.data.message } });

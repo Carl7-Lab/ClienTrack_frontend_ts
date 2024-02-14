@@ -1,6 +1,6 @@
 import { Box, Flex, Link, Text, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import useCustomTitle from '../../hooks/useCustomTitle';
+import useCustomTitle from '../../hooks/public/useCustomTitle';
 import {
   AlertCustom,
   ButtonCustom,
@@ -8,7 +8,7 @@ import {
   InputCustom,
 } from '../../components/authFormik';
 import { colors } from '../../styles/colors';
-import useForgetPassword from '../../hooks/useForgetPassword';
+import useForgetPassword from '../../hooks/public/useForgetPassword';
 
 const ForgetPassword = () => {
   useCustomTitle('Olvidó Contraseña | ClienTrack');

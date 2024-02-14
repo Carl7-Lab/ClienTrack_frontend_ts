@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { Box, Container, Link, Text } from '@chakra-ui/react';
-import useCustomTitle from '../../hooks/useCustomTitle';
+import useCustomTitle from '../../hooks/public/useCustomTitle';
 import { AlertCustom, HeadingCustom } from '../../components/authFormik';
 import { colors } from '../../styles/colors';
-import useConfirmAccount from '../../hooks/useConfirmAccount';
+import useConfirmAccount from '../../hooks/public/useConfirmAccount';
 
 const ConfirmAccount = () => {
   useCustomTitle('Confirmar Cuenta | ClienTrack');

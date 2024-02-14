@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { Box, Container, Link, Text, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import useCustomTitle from '../../hooks/useCustomTitle';
-import useNewPassword from '../../hooks/useNewPassword';
+import useCustomTitle from '../../hooks/public/useCustomTitle';
+import useNewPassword from '../../hooks/public/useNewPassword';
 import {
   AlertCustom,
   ButtonCustom,

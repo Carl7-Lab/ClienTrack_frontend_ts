@@ -1,13 +1,14 @@
 import { Button } from '@chakra-ui/react';
+import { colors } from '../../styles/colors';
 
 const ButtonCustom = ({ text }: { text: string }) => {
   return (
     <Button
       type="submit"
       width="full"
-      backgroundColor="rgba(0, 35, 255, 1)"
+      backgroundColor={colors.one}
       color="white"
-      _hover={{ backgroundColor: 'rgba(0,34,255,0.5)' }}
+      _hover={{ backgroundColor: colors.three }}
     >
       {text}
     </Button>

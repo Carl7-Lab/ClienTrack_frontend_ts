@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import useAlert from './useAlert';
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../../config/clientAxios';
 
 interface ValuesProps {
   email: string;

@@ -7,3 +7,5 @@ React + TypeScript + Vite
 axios react-router-dom formik chakra-ui yup
 
 coneccion con la api y optimizacion de codigo la parte de autenticacion
+
+parte privada inicio, clientes y ventas

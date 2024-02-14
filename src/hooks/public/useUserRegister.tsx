@@ -1,8 +1,8 @@
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../../config/clientAxios';
 import { FormikHelpers } from 'formik/dist/types';
 import * as Yup from 'yup';
 import useAlert from './useAlert';
-import { VALID_PASSWORD_REGEX } from '../helpers/variable';
+import { VALID_PASSWORD_REGEX } from '../../helpers/variable';
 
 interface ValuesProps {
   userName: string;
