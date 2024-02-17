@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PublicLayout from './layouts/PublicLayout';
 import PrivateLayout from './layouts/PrivateLayout';
 import { PublicProvider } from './context/PublicProvider';
+import { PrivateProvider } from './context/PrivateProvider';
 import {
   ConfirmAccount,
   ForgetPassword,
@@ -11,7 +12,6 @@ import {
 } from './pages/public';
 import { Clients, Home, Sales } from './pages/private';
 import PageNotFound from './pages/PageNotFound';
-import { PrivateProvider } from './context/PrivateProvider';
 
 function App() {
   return (
@@ -24,8 +24,14 @@ function App() {
                 <Route index element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="forget-password" element={<ForgetPassword />} />
-                <Route path="forget-password/:token" element={<NewPassword />} />
-                <Route path="confirm-account/:id" element={<ConfirmAccount />} />
+                <Route
+                  path="forget-password/:token"
+                  element={<NewPassword />}
+                />
+                <Route
+                  path="confirm-account/:id"
+                  element={<ConfirmAccount />}
+                />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
 

@@ -45,7 +45,9 @@ const Footer = () => {
                 width="30%"
                 height="30px"
                 py="5px"
-                backgroundColor={pathname === path ? colors.one_light : colors.white}
+                backgroundColor={
+                  pathname === path ? colors.one_light : colors.white
+                }
               />
               {label}
             </Link>

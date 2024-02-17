@@ -9,6 +9,11 @@ const ButtonCustom = ({ text }: { text: string }) => {
       backgroundColor={colors.one}
       color="white"
       _hover={{ backgroundColor: colors.three }}
+      _active={{
+        backgroundColor: colors.three,
+        textColor: colors.one,
+        fontWeight: 'bold',
+      }}
     >
       {text}
     </Button>
