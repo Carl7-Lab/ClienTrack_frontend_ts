@@ -1,11 +1,13 @@
 import { Box, Flex, Link, Text, Image } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
-import logo from '../../../public/logo-no-background.png';
-import { colors } from '../../styles/colors';
+
+import usePrivate from '../../hooks/private/usePrivate';
+
 import { navigationLinks } from '../../helpers/variable';
+import { colors } from '../../styles/colors';
+import logo from '/logo-no-background.png';
 
 const Header = ({ page }: { page: string }) => {
-  const { pathname } = useLocation();
+  const { pathname } = usePrivate();
 
   return (
     <Box
@@ -53,9 +55,11 @@ const Header = ({ page }: { page: string }) => {
             <Link
               key={path}
               href={path}
-              fontWeight={pathname === path ? 'bold' : 'normal'}
-              textColor={pathname === path ? colors.white : colors.one}
-              backgroundColor={pathname === path ? colors.three : colors.white}
+              fontWeight={pathname.includes(path) ? 'bold' : 'normal'}
+              textColor={pathname.includes(path) ? colors.white : colors.one}
+              backgroundColor={
+                pathname.includes(path) ? colors.three : colors.white
+              }
               width="33%"
               textAlign="center"
               px="auto"

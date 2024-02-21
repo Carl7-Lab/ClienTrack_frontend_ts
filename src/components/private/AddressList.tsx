@@ -1,10 +1,12 @@
-import { Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
-import { AddressPropsBD, ClientPropsBD } from '../../interface/PrivateProps';
-import { TbEdit } from 'react-icons/tb';
-import { colors } from '../../styles/colors';
-import usePrivate from '../../hooks/private/usePrivate';
 import { useState } from 'react';
+import { Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
+
+import { AddressPropsBD, ClientPropsBD } from '../../interface/PrivateProps';
+import usePrivate from '../../hooks/private/usePrivate';
+
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx';
+import { updateStyle } from '../authFormik/ButtonCustom';
+import { colors } from '../../styles/colors';
 
 const AddressList = ({ client }: { client: ClientPropsBD }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,36 +63,16 @@ const AddressList = ({ client }: { client: ClientPropsBD }) => {
               >
                 <Button
                   variant="solid"
-                  leftIcon={<TbEdit size="25px" />}
+                  p="0px"
+                  m="0px"
+                  pl="6px"
+                  {...updateStyle}
                   onClick={() => {
                     onOpenAddressModal();
                     handleAddress({ valueA: address, valueC: client });
                   }}
-                  mx="3px"
-                  p="0px"
-                  m="0px"
-                  pl="6px"
-                  textColor={{ base: 'gray.700', md: colors.white }}
-                  backgroundColor={{ base: colors.transparent, md: 'gray.400' }}
-                  _hover={{
-                    backgroundColor: {
-                      base: colors.transparent,
-                      md: 'gray.500',
-                    },
-                    textColor: { base: 'gray.500', md: 'black' },
-                    fontWeight: 'bold',
-                  }}
-                  _active={{
-                    backgroundColor: {
-                      base: colors.transparent,
-                      md: 'gray.300',
-                    },
-                    textColor: { base: 'gray.300', md: 'black' },
-                    fontWeight: 'bold',
-                  }}
-                >
-                  <Text display={{ base: 'none', md: 'none' }}>Actualizar</Text>
-                </Button>
+                />
+
                 {'Dirección ' +
                   (itemsPerPage * (currentPage - 1) + index + 1) +
                   ' : '}

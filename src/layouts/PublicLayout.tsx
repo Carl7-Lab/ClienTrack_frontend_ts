@@ -1,5 +1,6 @@
-import { Container, Flex, Spinner } from '@chakra-ui/react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { Container, Flex, Spinner } from '@chakra-ui/react';
+
 import usePublic from '../hooks/public/usePublic';
 
 const PublicLayout = () => {

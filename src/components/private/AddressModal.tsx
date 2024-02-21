@@ -1,5 +1,5 @@
+import { Form, Formik } from 'formik';
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,64 +9,34 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { BiSolidLocationPlus } from 'react-icons/bi';
-import { colors } from '../../styles/colors';
-import { Form, Formik } from 'formik';
-import { InputModal } from '.';
-import ButtonCustom from '../authFormik/ButtonCustom';
-import usePrivate from '../../hooks/private/usePrivate';
-import { ClientPropsBD } from '../../interface/PrivateProps';
 
-const AddressModal = ({ valueC }: { valueC: ClientPropsBD }) => {
+import { InputModal } from '.';
+import usePrivate from '../../hooks/private/usePrivate';
+import ButtonCustom from '../authFormik/ButtonCustom';
+
+import { colors } from '../../styles/colors';
+
+const AddressModal = () => {
   const {
+    pathname,
     address,
     initialAddress,
     inputsAddress,
     isOpenAdressModal,
     validationAdressModal,
     onCloseAddressModal,
-    onOpenAddressModal,
     onSubmitAddressModal,
     handleResetAddress,
-    handleClient,
   } = usePrivate();
 
   return (
     <>
-      <Button
-        leftIcon={<BiSolidLocationPlus size="25px" />}
-        onClick={() => {
-          onOpenAddressModal();
-          handleResetAddress();
-          handleClient(valueC);
-        }}
-        variant="solid"
-        mx="5px"
-        p="0px"
-        pl="5px"
-        height="30px"
-        textColor={colors.white}
-        backgroundColor={colors.one}
-        width={{ sm: '20px', md: '120px' }}
-        _hover={{
-          backgroundColor: colors.one_light,
-          textColor: colors.one,
-          fontWeight: 'bold',
-        }}
-        _active={{
-          backgroundColor: colors.three,
-          textColor: colors.one,
-          fontWeight: 'bold',
-        }}
-      >
-        <Text display={{ base: 'none', md: 'block' }}>Agregar</Text>
-      </Button>
       <Modal
         closeOnOverlayClick={false}
         isOpen={isOpenAdressModal}
         onClose={() => {
           onCloseAddressModal();
-          handleResetAddress();
+          if (pathname === '/login/clients') handleResetAddress();
         }}
       >
         <ModalOverlay />

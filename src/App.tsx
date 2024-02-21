@@ -1,8 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PublicLayout from './layouts/PublicLayout';
-import PrivateLayout from './layouts/PrivateLayout';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
 import { PublicProvider } from './context/PublicProvider';
 import { PrivateProvider } from './context/PrivateProvider';
+import PublicLayout from './layouts/PublicLayout';
+import PrivateLayout from './layouts/PrivateLayout';
 import {
   ConfirmAccount,
   ForgetPassword,
@@ -10,7 +11,7 @@ import {
   NewPassword,
   Register,
 } from './pages/public';
-import { Clients, Home, Sales } from './pages/private';
+import { Client, Clients, Home, Movements } from './pages/private';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -36,9 +37,11 @@ function App() {
               </Route>
 
               <Route path="/login" element={<PrivateLayout />}>
-                <Route index element={<Home />} />
+                <Route index element={<Navigate to="home" />} />
+                <Route path="home" element={<Home />} />
                 <Route path="clients" element={<Clients />} />
-                <Route path="sales" element={<Sales />} />
+                <Route path="sales" element={<Movements />} />
+                <Route path="clients/:id" element={<Client />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Routes>

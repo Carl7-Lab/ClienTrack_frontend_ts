@@ -1,10 +1,11 @@
-import { Box, Flex, Icon, Link, Text } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
-import { colors } from '../../styles/colors';
 import { navigationLinks } from '../../helpers/variable';
+import { Box, Flex, Icon, Link, Text } from '@chakra-ui/react';
+
+import usePrivate from '../../hooks/private/usePrivate';
+import { colors } from '../../styles/colors';
 
 const Footer = () => {
-  const { pathname } = useLocation();
+  const { pathname } = usePrivate();
 
   return (
     <>
@@ -28,8 +29,8 @@ const Footer = () => {
             <Link
               key={path}
               href={path}
-              fontWeight={pathname === path ? 'bold' : 'normal'}
-              textColor={pathname === path ? colors.one : colors.three}
+              fontWeight={pathname.includes(path) ? 'bold' : 'normal'}
+              textColor={pathname.includes(path) ? colors.one : colors.three}
               width="33%"
               textAlign="center"
               px="auto"
@@ -46,7 +47,7 @@ const Footer = () => {
                 height="30px"
                 py="5px"
                 backgroundColor={
-                  pathname === path ? colors.one_light : colors.white
+                  pathname.includes(path) ? colors.one_light : colors.white
                 }
               />
               {label}

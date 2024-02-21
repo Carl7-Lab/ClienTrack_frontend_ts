@@ -1,7 +1,8 @@
-import * as Yup from 'yup';
-import { useDisclosure } from '@chakra-ui/react';
-import { InputProps } from '../../components/private/InputModal';
 import { useState } from 'react';
+import { useDisclosure } from '@chakra-ui/react';
+import * as Yup from 'yup';
+
+import { InputProps } from '../../components/private/InputModal';
 
 export interface ValuesProps {
   streets: string;

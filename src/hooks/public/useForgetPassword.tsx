@@ -1,6 +1,7 @@
-import * as Yup from 'yup';
-import useAlert from './useAlert';
 import clientAxios from '../../config/clientAxios';
+import * as Yup from 'yup';
+
+import useAlert from './useAlert';
 
 interface ValuesProps {
   email: string;
@@ -14,7 +15,9 @@ const useForgetPassword = () => {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Correo no tiene un formato válido').required('Requerido'),
+    email: Yup.string()
+      .email('Correo no tiene un formato válido')
+      .required('Requerido'),
   });
 
   const onSubmit = async (
@@ -24,7 +27,10 @@ const useForgetPassword = () => {
     try {
       const { data } = await clientAxios.post('/users/forgot-password', values);
       //   resetForm();
-      viewAlert({ alert: { status: 'success', msg: data.message }, forever: true });
+      viewAlert({
+        alert: { status: 'success', msg: data.message },
+        forever: true,
+      });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error.response);

@@ -1,52 +1,37 @@
-import {
-  Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Text,
-} from '@chakra-ui/react';
-import { useState } from 'react';
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+
+import usePrivate from '../../hooks/private/usePrivate';
+import SearchModal from './SearchModal';
+
 import { MdPersonSearch } from 'react-icons/md';
 import { colors } from '../../styles/colors';
 
 const Search = () => {
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearch = () => {
-    console.log('Valor del Search:', searchValue);
-  };
+  const { onOpenSearchModal } = usePrivate();
 
   return (
-    <InputGroup width={{ base: '75%', sm: '70%', md: '50%' }}>
-      <Input
-        type="tel"
-        fontWeight="bold"
-        placeholder="Buscar ..."
-        borderColor={colors.one}
-        _hover={{ borderWidth: '2px' }}
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-      />
-      <InputRightElement width={{ sm: '70px', md: '100px' }}>
-        <Button
-          variant="solid"
-          leftIcon={<MdPersonSearch size="30px" />}
-          colorScheme="blue"
-          textColor={colors.white}
-          backgroundColor={colors.one}
+    <>
+      <InputGroup width={{ base: '75%', sm: '70%', md: '50%' }}>
+        <Input
+          type="tel"
           fontWeight="bold"
-          _hover={{ backgroundColor: colors.white, textColor: colors.one }}
-          _active={{
-            backgroundColor: colors.three,
-            textColor: colors.one,
-            fontWeight: 'bold',
+          placeholder="Buscar ..."
+          borderColor={colors.one}
+          _hover={{ borderWidth: '2px' }}
+          value={''}
+          onChange={() => {
+            onOpenSearchModal();
           }}
-          onClick={handleSearch}
-        >
-          <Text display={{ base: 'none', md: 'block' }}>Buscar</Text>
-        </Button>
-      </InputRightElement>
-    </InputGroup>
+          onClick={() => {
+            onOpenSearchModal();
+          }}
+        />
+        <InputRightElement width={{ sm: '30px', md: '30px' }}>
+          <MdPersonSearch size="30px" />
+        </InputRightElement>
+      </InputGroup>
+      <SearchModal />
+    </>
   );
 };
 

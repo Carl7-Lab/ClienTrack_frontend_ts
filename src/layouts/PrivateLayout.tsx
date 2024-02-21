@@ -1,9 +1,11 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Box, Flex, Spinner, VStack } from '@chakra-ui/react';
+
 import usePublic from '../hooks/public/usePublic';
-import { colors } from '../styles/colors';
 import { Footer, Header } from '../components/private';
+
 import { navigationLinks } from '../helpers/variable';
+import { colors } from '../styles/colors';
 
 const UserLayout = () => {
   const { pathname } = useLocation();
@@ -11,7 +13,9 @@ const UserLayout = () => {
   const { auth, isLoading } = usePublic();
   const { _id } = auth;
 
-  const matchingLink = navigationLinks.find(({ path }) => path === pathname);
+  const matchingLink = navigationLinks.find(({ path }) =>
+    pathname.includes(path),
+  );
   const page = matchingLink ? matchingLink.label : 'Error...';
 
   if (isLoading)

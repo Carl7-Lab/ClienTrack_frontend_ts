@@ -1,3 +1,4 @@
+import { Form, Formik } from 'formik';
 import {
   Modal,
   ModalBody,
@@ -7,17 +8,17 @@ import {
   ModalOverlay,
   VStack,
   Text,
-  Button,
 } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+
+import usePrivate from '../../hooks/private/usePrivate';
 import { ButtonCustom } from '../authFormik';
 import { InputModal } from '.';
+
 import { colors } from '../../styles/colors';
-import usePrivate from '../../hooks/private/usePrivate';
-import { ImUserPlus } from 'react-icons/im';
 
 const ClientModal = () => {
   const {
+    pathname,
     client,
     initialClient,
     inputsClient,
@@ -25,40 +26,17 @@ const ClientModal = () => {
     validationClientModal,
     handleResetClient,
     onCloseClientModal,
-    onOpenClientModal,
     onSubmitClientModal,
   } = usePrivate();
 
   return (
     <>
-      <Button
-        leftIcon={<ImUserPlus size="24px" />}
-        onClick={() => {
-          handleResetClient();
-          onOpenClientModal();
-        }}
-        variant="solid"
-        p="0px"
-        pl="10px"
-        textColor={colors.white}
-        backgroundColor={colors.one}
-        fontWeight="bold"
-        width={{ sm: '42px', md: '180px' }}
-        _hover={{ backgroundColor: colors.white, textColor: colors.one }}
-        _active={{
-          backgroundColor: colors.three,
-          textColor: colors.one,
-          fontWeight: 'bold',
-        }}
-      >
-        <Text display={{ base: 'none', md: 'block' }}>Agregar Cliente</Text>
-      </Button>
       <Modal
         closeOnOverlayClick={false}
         isOpen={isOpenClientModal}
         onClose={() => {
           onCloseClientModal();
-          handleResetClient();
+          if (pathname === '/login/clients') handleResetClient();
         }}
       >
         <ModalOverlay />

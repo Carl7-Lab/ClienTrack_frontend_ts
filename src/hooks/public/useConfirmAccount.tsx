@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import clientAxios from '../../config/clientAxios';
+
 import useAlert from './useAlert';
 
 const useConfirmAccount = (id: string | undefined) => {
@@ -9,7 +10,10 @@ const useConfirmAccount = (id: string | undefined) => {
     const confirmAccount = async () => {
       try {
         const { data } = await clientAxios(`/users/confirm/${id}`);
-        viewAlert({ alert: { status: 'success', msg: data.message }, forever: true });
+        viewAlert({
+          alert: { status: 'success', msg: data.message },
+          forever: true,
+        });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         viewAlert({
@@ -19,6 +23,7 @@ const useConfirmAccount = (id: string | undefined) => {
       }
     };
     confirmAccount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return { alert };

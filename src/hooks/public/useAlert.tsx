@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { AlertProps } from '../../components/authFormik';
 import { useNavigate } from 'react-router-dom';
+
+import { AlertProps } from '../../components/authFormik';
 
 interface ViewAlertProps {
   alert: AlertProps;

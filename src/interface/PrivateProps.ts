@@ -1,32 +1,41 @@
-import {
-  // Dispatch,
-  ReactNode,
-} from 'react';
-import * as Yup from 'yup';
-import { ValuesProps as ClientProps } from '../hooks/private/useClient';
-import { ValuesProps as AddressProps } from '../hooks/private/useAddress';
-import { InputProps } from '../components/private/InputModal';
+import { ReactNode } from 'react';
 import { ToastId } from '@chakra-ui/react';
+import * as Yup from 'yup';
+
+import {
+  AddressProps,
+  ClientProps,
+  CollectionProps,
+  SaleProps,
+} from '../hooks/private';
+import { InputProps } from '../components/private/InputModal';
 
 export interface PrivateProviderProps {
   children?: ReactNode;
 }
 
 export type PrivateContextProps = {
+  pathname: string;
+
   clients: ClientPropsBD[];
   client: ClientPropsBD;
-  address: AddressPropsBD;
-  handleClient: (values: ClientPropsBD) => void;
-  handleResetClient: () => void;
-
   initialClient: ClientProps;
   inputsClient: InputProps[];
   isOpenClientModal: boolean;
   validationClientModal: ValidationClientModal;
+  getClients: ({
+    searchValue,
+  }: {
+    searchValue?: string | undefined;
+  }) => Promise<void>;
+  getClient: (idClient: string) => Promise<void>;
+  handleClient: (values: ClientPropsBD) => void;
+  handleResetClient: () => void;
   onCloseClientModal: () => void;
   onOpenClientModal: () => void;
   onSubmitClientModal: (values: ClientProps) => Promise<void>;
 
+  address: AddressPropsBD;
   initialAddress: AddressProps;
   inputsAddress: InputProps[];
   isOpenAdressModal: boolean;
@@ -42,6 +51,39 @@ export type PrivateContextProps = {
   onCloseAddressModal: () => void;
   onOpenAddressModal: () => void;
   onSubmitAddressModal: (values: AddressProps) => Promise<ToastId | undefined>;
+
+  sales: SalePropsBD[];
+  sale: SalePropsBD;
+  initialSale: SaleProps;
+  isOpenSaleModal: boolean;
+  validationSaleModal: ValidationSaleModal;
+  getSales: ({ idClient }: { idClient?: string | undefined }) => Promise<void>;
+  handleSale: (values: SalePropsBD) => void;
+  handleResetSale: () => void;
+  onCloseSaleModal: () => void;
+  onOpenSaleModal: () => void;
+  onSubmitSaleModal: (values: SaleProps) => Promise<void>;
+
+  collections: CollectionPropsBD[];
+  collection: CollectionPropsBD;
+  initialCollection: CollectionProps;
+  inputsCollection: InputProps[];
+  isOpenCollectionModal: boolean;
+  validationCollectionModal: ValidationCollectionModal;
+  getCollections: ({
+    idClient,
+  }: {
+    idClient?: string | undefined;
+  }) => Promise<void>;
+  handleCollection: (values: CollectionPropsBD) => void;
+  handleResetCollection: () => void;
+  onCloseCollectionModal: () => void;
+  onOpenCollectionModal: () => void;
+  onSubmitCollectionModal: (values: CollectionProps) => Promise<void>;
+
+  isOpenSearchModal: boolean;
+  onCloseSearchModal: () => void;
+  onOpenSearchModal: () => void;
 };
 
 export interface ClientPropsBD {
@@ -62,6 +104,44 @@ export interface AddressPropsBD {
   location?: string;
   streets?: string;
   _id?: string;
+}
+
+export interface ItemPropsBD {
+  name?: string;
+  description?: string;
+  value?: number;
+  returned?: boolean;
+  _id?: string;
+}
+
+export interface SalePropsBD {
+  date?: string;
+  items?: ItemPropsBD[];
+  note?: string;
+  typePay?: 'Contado' | 'Credito' | '';
+  value?: number;
+  _id?: string;
+  client?: {
+    name?: string;
+    lastName?: string;
+    alias?: string;
+    seller?: string;
+    _id?: string;
+  };
+}
+
+export interface CollectionPropsBD {
+  date?: string;
+  value?: number;
+  note?: string;
+  _id?: string;
+  client?: {
+    name?: string;
+    lastName?: string;
+    alias?: string;
+    seller?: string;
+    _id?: string;
+  };
 }
 
 type ValidationClientModal = Yup.ObjectSchema<
@@ -98,6 +178,43 @@ type ValidationAddressModal = Yup.ObjectSchema<
     city: undefined;
     description: undefined;
     location: undefined;
+  },
+  ''
+>;
+
+type ValidationSaleModal = Yup.ObjectSchema<
+  {
+    date: string;
+    items: {
+      returned?: boolean | undefined;
+      name: string;
+      description: string;
+      value: number;
+    }[];
+    note: string | undefined;
+    typePay: string;
+  },
+  Yup.AnyObject,
+  {
+    date: undefined;
+    items: '';
+    note: undefined;
+    typePay: undefined;
+  },
+  ''
+>;
+
+type ValidationCollectionModal = Yup.ObjectSchema<
+  {
+    date: string;
+    value: number;
+    note: string | undefined;
+  },
+  Yup.AnyObject,
+  {
+    date: undefined;
+    value: undefined;
+    note: undefined;
   },
   ''
 >;

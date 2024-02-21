@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import clientAxios from '../../config/clientAxios';
 import * as Yup from 'yup';
+import { FormikHelpers } from 'formik/dist/types';
+
 import useAlert from './useAlert';
 import { VALID_PASSWORD_REGEX } from '../../helpers/variable';
-import { FormikHelpers } from 'formik/dist/types';
 
 interface ValuesProps {
   password: string;
@@ -46,7 +47,10 @@ const useNewPassword = (token: string | undefined) => {
         'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial',
       ),
     repeatPassword: Yup.string()
-      .oneOf([Yup.ref('password'), undefined], 'Las contraseñas deben ser iguales')
+      .oneOf(
+        [Yup.ref('password'), undefined],
+        'Las contraseñas deben ser iguales',
+      )
       .required('Requerido'),
   });
 
@@ -55,17 +59,32 @@ const useNewPassword = (token: string | undefined) => {
     { resetForm }: FormikHelpers<ValuesProps>,
   ) => {
     try {
-      const { data } = await clientAxios.post(`/users/forgot-password/${token}`, values);
+      const { data } = await clientAxios.post(
+        `/users/forgot-password/${token}`,
+        values,
+      );
       resetForm();
       setChangePassword(true);
-      viewAlert({ alert: { status: 'success', msg: data.message }, forever: true });
+      viewAlert({
+        alert: { status: 'success', msg: data.message },
+        forever: true,
+      });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      viewAlert({ alert: { status: 'error', msg: error.response.data.message } });
+      viewAlert({
+        alert: { status: 'error', msg: error.response.data.message },
+      });
     }
   };
 
-  return { alert, validToken, initialValues, validationSchema, changePassword, onSubmit };
+  return {
+    alert,
+    validToken,
+    initialValues,
+    validationSchema,
+    changePassword,
+    onSubmit,
+  };
 };
 
 export default useNewPassword;

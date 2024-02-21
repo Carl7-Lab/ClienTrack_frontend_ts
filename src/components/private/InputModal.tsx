@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+import { ErrorMessage, useField } from 'formik';
 import {
   FormControl,
   FormErrorMessage,
@@ -5,15 +7,23 @@ import {
   Input,
   Textarea,
   Text,
+  Checkbox,
+  Select,
 } from '@chakra-ui/react';
-import { ErrorMessage, useField } from 'formik';
+
 import { colors } from '../../styles/colors';
-import { ChangeEvent } from 'react';
 
 export interface InputProps {
   label: string;
   name: string;
-  type?: 'text' | 'email' | 'password';
+  type?:
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'date'
+    | 'number'
+    | 'checkbox'
+    | 'selectPay';
   placeholder?: string;
   isReq?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +51,7 @@ const InputModal = ({ label, isReq, ...props }: InputProps) => {
           {label}
           {isReq && <Text textColor="red">*</Text>}
         </FormLabel>
-        {props.name === 'description' ? (
+        {props.name === 'description' || props.name === 'note' ? (
           <Textarea
             id={props.id}
             type={props.type}
@@ -54,6 +64,20 @@ const InputModal = ({ label, isReq, ...props }: InputProps) => {
             {...field}
             {...props}
           />
+        ) : props.type === 'checkbox' ? (
+          <Checkbox id={props.id} {...field} {...props} />
+        ) : props.type === 'selectPay' ? (
+          <>
+            <Select
+              id={props.id}
+              placeholder={props.placeholder}
+              {...field}
+              {...props}
+            >
+              <option value="Contado">Contado</option>
+              <option value="Credito">Crédito</option>
+            </Select>
+          </>
         ) : (
           <Input
             id={props.id}

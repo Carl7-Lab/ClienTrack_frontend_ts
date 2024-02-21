@@ -1,12 +1,33 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import useCustomTitle from '../../hooks/public/useCustomTitle';
-import { ClientModal, Search, ClientList } from '../../components/private';
+import { useEffect } from 'react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+
 import usePrivate from '../../hooks/private/usePrivate';
+import useCustomTitle from '../../hooks/public/useCustomTitle';
+import {
+  ClientModal,
+  Search,
+  ClientList,
+  AddressModal,
+} from '../../components/private';
+
+import { addStyle } from '../../components/authFormik/ButtonCustom';
+import { ImUserPlus } from 'react-icons/im';
 
 const Clients = () => {
-  const { clients } = usePrivate();
+  const {
+    clients,
+    getClients,
+    handleResetClient,
+    onOpenClientModal,
+    isOpenSearchModal,
+  } = usePrivate();
 
   useCustomTitle('Clientes | ClienTrack');
+
+  useEffect(() => {
+    getClients({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpenSearchModal]);
 
   if (!clients)
     return (
@@ -25,10 +46,23 @@ const Clients = () => {
         <Search />
 
         <Box mx="10px">
-          <ClientModal />
+          <Button
+            leftIcon={<ImUserPlus size="24px" />}
+            onClick={() => {
+              handleResetClient();
+              onOpenClientModal();
+            }}
+            {...addStyle}
+            pl="10px"
+            width={{ sm: '42px', md: '180px' }}
+          >
+            <Text display={{ base: 'none', md: 'block' }}>Agregar Cliente</Text>
+          </Button>
         </Box>
       </Flex>
 
+      <AddressModal />
+      <ClientModal />
       <ClientList />
     </Box>
   );

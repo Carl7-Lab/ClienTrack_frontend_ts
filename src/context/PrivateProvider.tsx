@@ -1,18 +1,29 @@
-import { createContext, useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { createContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import clientAxios from '../config/clientAxios';
+import { useToast } from '@chakra-ui/react';
+import { format } from 'date-fns';
+
 import {
   AddressPropsBD,
   ClientPropsBD,
+  CollectionPropsBD,
   PrivateContextProps,
   PrivateProviderProps,
+  SalePropsBD,
 } from '../interface/PrivateProps';
-import useClient, {
-  ValuesProps as ClientProps,
-} from '../hooks/private/useClient';
-import useAddress, {
-  ValuesProps as AddressProps,
-} from '../hooks/private/useAddress';
+
+import {
+  AddressProps,
+  ClientProps,
+  CollectionProps,
+  SaleProps,
+  useAddress,
+  useClient,
+  useCollection,
+  useSale,
+  useSearch,
+} from '../hooks/private';
 
 const PrivateContext = createContext<PrivateContextProps>(
   {} as PrivateContextProps,
@@ -21,8 +32,12 @@ const PrivateContext = createContext<PrivateContextProps>(
 export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   const [clients, setClients] = useState<ClientPropsBD[]>([]);
   const [client, setClient] = useState<ClientPropsBD>({});
-  // const [addresses, setAddresses] = useState<AddressPropsBD[]>([]);
   const [address, setAddress] = useState<AddressPropsBD>({});
+  const [sales, setSales] = useState<SalePropsBD[]>([]);
+  const [sale, setSale] = useState<SalePropsBD>({});
+  const [collections, setCollections] = useState<CollectionPropsBD[]>([]);
+  const [collection, setCollection] = useState<CollectionPropsBD>({});
+  const { pathname } = useLocation();
 
   const toast = useToast();
 
@@ -46,34 +61,118 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     setInitialAddress,
   } = useAddress();
 
-  useEffect(() => {
-    const getClients = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        };
+  const {
+    initialSale,
+    isOpenSaleModal,
+    validationSaleModal,
+    onCloseSaleModal,
+    onOpenSaleModal,
+    setInitialSale,
+  } = useSale();
 
-        const { data } = await clientAxios('/clients', config);
+  const {
+    initialCollection,
+    inputsCollection,
+    isOpenCollectionModal,
+    validationCollectionModal,
+    onCloseCollectionModal,
+    onOpenCollectionModal,
+    setInitialCollection,
+  } = useCollection();
 
+  const { isOpenSearchModal, onCloseSearchModal, onOpenSearchModal } =
+    useSearch();
+
+  const getClients = async ({ searchValue }: { searchValue?: string }) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      if (searchValue) {
+        const { data } = await clientAxios(
+          `/clients/?search=${searchValue}`,
+          config,
+        );
         setClients(data.data.clients);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast({
-          title: error.response.data.message,
-          status: 'error',
-          duration: 8000,
-          isClosable: true,
-        });
+      } else {
+        const { data } = await clientAxios('/clients', config);
+        setClients(data.data.clients);
       }
-    };
 
-    getClients();
-  }, [toast]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 8000,
+        isClosable: true,
+      });
+      setClients([]);
+    }
+  };
+
+  const getClient = async (idClient: string) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await clientAxios(`/clients/${idClient}`, config);
+    setClient(data.data.client);
+  };
+
+  const getSales = async ({ idClient }: { idClient?: string }) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    if (idClient !== undefined) {
+      const { data } = await clientAxios(
+        `/purchases/?client=${idClient}`,
+        config,
+      );
+      setSales(data.data.purchasesList);
+    }
+    if (idClient === undefined) {
+      const { data } = await clientAxios(`/purchases/`, config);
+      setSales(data.data.purchasesList);
+    }
+  };
+
+  const getCollections = async ({ idClient }: { idClient?: string }) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    if (idClient !== undefined) {
+      const { data } = await clientAxios(
+        `/payments/?client=${idClient}`,
+        config,
+      );
+      setCollections(data.data.paymentsList);
+    }
+    if (idClient === undefined) {
+      const { data } = await clientAxios(`/payments/`, config);
+      setCollections(data.data.paymentsList);
+    }
+  };
 
   const handleClient = (values: ClientPropsBD) => {
     setClient(values);
@@ -92,6 +191,51 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       description: '',
       alias: '',
       addresses: [],
+    });
+  };
+
+  const handleSale = (values: SalePropsBD) => {
+    setSale(values);
+
+    setInitialSale({
+      date: format(`${values.date}`, 'yyyy-MM-dd'),
+      items: (values.items ?? []).map((item) => ({
+        name: item.name || '',
+        description: item.description || '',
+        value: item.value || 0,
+        returned: item.returned || false,
+      })),
+      note: values.note ?? '',
+      typePay: values.typePay ?? '',
+    });
+  };
+
+  const handleResetSale = () => {
+    setSale({});
+    setInitialSale({
+      date: '',
+      items: [{ name: '', description: '', value: 0, returned: false }],
+      note: '',
+      typePay: '',
+    });
+  };
+
+  const handleCollection = (values: CollectionPropsBD) => {
+    setCollection(values);
+
+    setInitialCollection({
+      date: format(`${values.date}`, 'yyyy-MM-dd'),
+      value: values.value || 0,
+      note: values.note ?? '',
+    });
+  };
+
+  const handleResetCollection = () => {
+    setCollection({});
+    setInitialCollection({
+      date: '',
+      value: 0,
+      note: '',
     });
   };
 
@@ -177,7 +321,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         });
       }
 
-      handleResetClient();
+      if (pathname === '/login/clients') handleResetClient();
       onCloseClientModal();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -258,8 +402,134 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       );
       setClients(updateClients);
 
-      handleResetAddress();
+      if (pathname === '/login/clients') handleResetAddress();
       onCloseAddressModal();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const onSubmitSaleModal = async (values: SaleProps) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      if (sale._id) {
+        const { data } = await clientAxios.put(
+          `/purchases/${sale._id}`,
+          {
+            updatePurchase: values,
+          },
+          config,
+        );
+
+        const updatePurchases = sales.map((saleState) =>
+          saleState._id === data.data.updatePurchase._id
+            ? data.data.updatePurchase
+            : saleState,
+        );
+
+        setSales(updatePurchases);
+
+        toast({
+          title: 'Venta Actualizada',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        const { data } = await clientAxios.post(
+          `/purchases/?client=${client._id}`,
+          { newPurchase: values },
+          config,
+        );
+        setSales([data.data.purchase, ...sales]);
+
+        toast({
+          title: 'Venta Agregada',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+
+      onCloseSaleModal();
+      handleResetSale();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const onSubmitCollectionModal = async (values: CollectionProps) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      if (collection._id) {
+        const { data } = await clientAxios.put(
+          `/payments/${collection._id}`,
+          {
+            updatePayment: values,
+          },
+          config,
+        );
+
+        const updatePayments = collections.map((collectionState) =>
+          collectionState._id === data.data.updatePayment._id
+            ? data.data.updatePayment
+            : collectionState,
+        );
+
+        setCollections(updatePayments);
+
+        toast({
+          title: 'Cobro Actualizado',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        const { data } = await clientAxios.post(
+          `/payments/?client=${client._id}`,
+          { newPayment: values },
+          config,
+        );
+        setCollections([data.data.payment, ...collections]);
+
+        toast({
+          title: 'Cobro Agregado',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+
+      handleResetCollection();
+      onCloseCollectionModal();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
@@ -274,20 +544,23 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   return (
     <PrivateContext.Provider
       value={{
+        pathname,
+
         clients,
         client,
-        address,
-        handleClient,
-        handleResetClient,
-
         initialClient,
         inputsClient,
         isOpenClientModal,
         validationClientModal,
+        getClients,
+        getClient,
+        handleClient,
+        handleResetClient,
         onCloseClientModal,
         onOpenClientModal,
         onSubmitClientModal,
 
+        address,
         initialAddress,
         inputsAddress,
         isOpenAdressModal,
@@ -297,6 +570,35 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         onCloseAddressModal,
         onOpenAddressModal,
         onSubmitAddressModal,
+
+        sales,
+        sale,
+        initialSale,
+        isOpenSaleModal,
+        validationSaleModal,
+        handleSale,
+        handleResetSale,
+        getSales,
+        onCloseSaleModal,
+        onOpenSaleModal,
+        onSubmitSaleModal,
+
+        collections,
+        collection,
+        initialCollection,
+        inputsCollection,
+        isOpenCollectionModal,
+        validationCollectionModal,
+        handleCollection,
+        handleResetCollection,
+        getCollections,
+        onCloseCollectionModal,
+        onOpenCollectionModal,
+        onSubmitCollectionModal,
+
+        isOpenSearchModal,
+        onCloseSearchModal,
+        onOpenSearchModal,
       }}
     >
       {children}

@@ -1,8 +1,9 @@
-import * as Yup from 'yup';
-import useAlert from './useAlert';
-import clientAxios from '../../config/clientAxios';
-import usePublic from './usePublic';
 import { useNavigate } from 'react-router-dom';
+import clientAxios from '../../config/clientAxios';
+import * as Yup from 'yup';
+
+import useAlert from './useAlert';
+import usePublic from './usePublic';
 
 interface ValuesProps {
   email: string;
@@ -23,7 +24,9 @@ const useLogin = () => {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Correo no tiene un formato válido').required('Requerido'),
+    email: Yup.string()
+      .email('Correo no tiene un formato válido')
+      .required('Requerido'),
     password: Yup.string().required('Requerido'),
     remember: Yup.boolean(),
   });
@@ -37,7 +40,9 @@ const useLogin = () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      viewAlert({ alert: { status: 'error', msg: error.response.data.message } });
+      viewAlert({
+        alert: { status: 'error', msg: error.response.data.message },
+      });
     }
   };
 
