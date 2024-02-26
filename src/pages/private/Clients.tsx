@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 import usePrivate from '../../hooks/private/usePrivate';
@@ -8,26 +8,34 @@ import {
   Search,
   ClientList,
   AddressModal,
+  Pagination,
 } from '../../components/private';
 
 import { addStyle } from '../../components/authFormik/ButtonCustom';
 import { ImUserPlus } from 'react-icons/im';
 
 const Clients = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  //numero de clientes por pagina
+  const limit = 9;
+
   const {
     clients,
+    isOpenSearchModal,
+    totalClients,
+
     getClients,
     handleResetClient,
     onOpenClientModal,
-    isOpenSearchModal,
   } = usePrivate();
 
   useCustomTitle('Clientes | ClienTrack');
 
   useEffect(() => {
-    getClients({});
+    getClients({ searchValue, limit: limit, page: currentPage });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpenSearchModal]);
+  }, [isOpenSearchModal, currentPage]);
 
   if (!clients)
     return (
@@ -43,7 +51,7 @@ const Clients = () => {
         my={{ base: '10px', sm: '15px', md: '20px' }}
         mr={{ base: '10px', sm: '20px', md: '30px' }}
       >
-        <Search />
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
 
         <Box mx="10px">
           <Button
@@ -61,9 +69,22 @@ const Clients = () => {
         </Box>
       </Flex>
 
+      <Pagination
+        limit={limit}
+        total={totalClients}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+      <ClientList />
+      <Pagination
+        limit={limit}
+        total={totalClients}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+
       <AddressModal />
       <ClientModal />
-      <ClientList />
     </Box>
   );
 };

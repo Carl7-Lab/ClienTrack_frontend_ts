@@ -7,5 +7,5 @@ export const VALID_PASSWORD_REGEX =
 export const navigationLinks = [
   { path: '/login/home', icon: IoMdHome, label: 'Inicio' },
   { path: '/login/clients', icon: IoMdPeople, label: 'Clientes' },
-  { path: '/login/sales', icon: MdPointOfSale, label: 'Movimientos' },
+  { path: '/login/movements', icon: MdPointOfSale, label: 'Movimientos' },
 ];

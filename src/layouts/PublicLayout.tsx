@@ -7,8 +7,6 @@ const PublicLayout = () => {
   const { auth, isLoading } = usePublic();
   const { _id } = auth;
 
-  console.log(auth);
-
   if (isLoading)
     return (
       <Flex bg="gray.100" align="center" justify="center" minH="100vh">

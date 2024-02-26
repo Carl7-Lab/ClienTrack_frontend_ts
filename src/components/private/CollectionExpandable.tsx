@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Box, Button, Flex, IconButton, Td, Tr, Text } from '@chakra-ui/react';
-import { format } from 'date-fns';
 
 import usePrivate from '../../hooks/private/usePrivate';
 import { CollectionPropsBD } from '../../interface/PrivateProps';
@@ -8,6 +7,7 @@ import ClientInfoView from './ClientInfoView';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { addStyle, updateStyle } from '../authFormik/ButtonCustom';
+import { formatDate } from '../../helpers/formatDate';
 
 const CollectionExpandable = ({
   collection,
@@ -15,7 +15,7 @@ const CollectionExpandable = ({
   collection: CollectionPropsBD;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { handleCollection, onOpenCollectionModal } = usePrivate();
+  const { pathname, handleCollection, onOpenCollectionModal } = usePrivate();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -32,7 +32,7 @@ const CollectionExpandable = ({
             {...addStyle}
           />
         </Td>
-        <Td>{collection.date && format(collection.date, 'yyyy-MM-dd')}</Td>
+        <Td>{collection.date && formatDate(collection.date)}</Td>
         <Td>${collection.value}</Td>
       </Tr>
       {isOpen && (
@@ -63,7 +63,7 @@ const CollectionExpandable = ({
               </Box>
             </Td>
           </Tr>
-          {collection.client && (
+          {collection.client && pathname === '/login/movements' && (
             <Tr backgroundColor="gray.100">
               <Td colSpan={3}>
                 <Box p="0" width="80%" mx="auto">

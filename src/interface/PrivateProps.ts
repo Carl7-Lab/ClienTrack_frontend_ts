@@ -16,6 +16,9 @@ export interface PrivateProviderProps {
 
 export type PrivateContextProps = {
   pathname: string;
+  totalClients: number;
+  totalSales: number;
+  totalCollections: number;
 
   clients: ClientPropsBD[];
   client: ClientPropsBD;
@@ -23,11 +26,7 @@ export type PrivateContextProps = {
   inputsClient: InputProps[];
   isOpenClientModal: boolean;
   validationClientModal: ValidationClientModal;
-  getClients: ({
-    searchValue,
-  }: {
-    searchValue?: string | undefined;
-  }) => Promise<void>;
+  getClients: ({ searchValue, limit, page }: GetClientProps) => Promise<void>;
   getClient: (idClient: string) => Promise<void>;
   handleClient: (values: ClientPropsBD) => void;
   handleResetClient: () => void;
@@ -57,7 +56,7 @@ export type PrivateContextProps = {
   initialSale: SaleProps;
   isOpenSaleModal: boolean;
   validationSaleModal: ValidationSaleModal;
-  getSales: ({ idClient }: { idClient?: string | undefined }) => Promise<void>;
+  getSales: ({ idClient, page, limit }: GetSaleProps) => Promise<void>;
   handleSale: (values: SalePropsBD) => void;
   handleResetSale: () => void;
   onCloseSaleModal: () => void;
@@ -72,9 +71,9 @@ export type PrivateContextProps = {
   validationCollectionModal: ValidationCollectionModal;
   getCollections: ({
     idClient,
-  }: {
-    idClient?: string | undefined;
-  }) => Promise<void>;
+    page,
+    limit,
+  }: GetCollectionProps) => Promise<void>;
   handleCollection: (values: CollectionPropsBD) => void;
   handleResetCollection: () => void;
   onCloseCollectionModal: () => void;
@@ -142,6 +141,28 @@ export interface CollectionPropsBD {
     seller?: string;
     _id?: string;
   };
+}
+
+export interface GetClientProps {
+  searchValue?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface GetSaleProps {
+  idClient?: string;
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface GetCollectionProps {
+  idClient?: string;
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 type ValidationClientModal = Yup.ObjectSchema<

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -16,16 +16,22 @@ import {
 } from '@chakra-ui/react';
 
 import usePrivate from '../../hooks/private/usePrivate';
+import { SearchProps } from './Search';
 
 import { MdPersonSearch } from 'react-icons/md';
 import { MdDoubleArrow } from 'react-icons/md';
 import { colors } from '../../styles/colors';
 
-const SearchModal = () => {
-  const [searchValue, setSearchValue] = useState('');
+const SearchModal = ({ searchValue, setSearchValue }: SearchProps) => {
   const initialRef = useRef(null);
   const { clients, isOpenSearchModal, onCloseSearchModal, getClients } =
     usePrivate();
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      onCloseSearchModal();
+    }
+  };
 
   return (
     <Modal
@@ -33,12 +39,11 @@ const SearchModal = () => {
       initialFocusRef={initialRef}
       isOpen={isOpenSearchModal}
       onClose={() => {
-        setSearchValue('');
         onCloseSearchModal();
       }}
     >
       <ModalOverlay />
-      <ModalContent mx="10px">
+      <ModalContent mx="10px" onKeyDown={handleKeyDown}>
         <ModalHeader textColor={colors.one} fontWeight="bold">
           <Text>Buscar Cliente</Text>
         </ModalHeader>
@@ -68,9 +73,6 @@ const SearchModal = () => {
               my="4px"
               _hover={{ backgroundColor: 'gray.100' }}
               _active={{ backgroundColor: 'gray.200' }}
-              onClick={() => {
-                console.log(client._id);
-              }}
             >
               <CardHeader
                 as={Link}

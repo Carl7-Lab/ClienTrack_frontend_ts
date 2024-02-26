@@ -1,13 +1,15 @@
 import { createContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import clientAxios from '../config/clientAxios';
 import { useToast } from '@chakra-ui/react';
-import { format } from 'date-fns';
 
 import {
   AddressPropsBD,
   ClientPropsBD,
   CollectionPropsBD,
+  GetClientProps,
+  GetCollectionProps,
+  GetSaleProps,
   PrivateContextProps,
   PrivateProviderProps,
   SalePropsBD,
@@ -24,6 +26,7 @@ import {
   useSale,
   useSearch,
 } from '../hooks/private';
+import { formatDate } from '../helpers/formatDate';
 
 const PrivateContext = createContext<PrivateContextProps>(
   {} as PrivateContextProps,
@@ -32,14 +35,18 @@ const PrivateContext = createContext<PrivateContextProps>(
 export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   const [clients, setClients] = useState<ClientPropsBD[]>([]);
   const [client, setClient] = useState<ClientPropsBD>({});
+  const [totalClients, setTotalClients] = useState(0);
   const [address, setAddress] = useState<AddressPropsBD>({});
   const [sales, setSales] = useState<SalePropsBD[]>([]);
   const [sale, setSale] = useState<SalePropsBD>({});
+  const [totalSales, setTotalSales] = useState(0);
   const [collections, setCollections] = useState<CollectionPropsBD[]>([]);
   const [collection, setCollection] = useState<CollectionPropsBD>({});
-  const { pathname } = useLocation();
+  const [totalCollections, setTotalCollections] = useState(0);
 
+  const { pathname } = useLocation();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const {
     initialClient,
@@ -83,7 +90,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   const { isOpenSearchModal, onCloseSearchModal, onOpenSearchModal } =
     useSearch();
 
-  const getClients = async ({ searchValue }: { searchValue?: string }) => {
+  const getClients = async ({ searchValue, limit, page }: GetClientProps) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
@@ -94,16 +101,19 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         },
       };
 
-      if (searchValue) {
-        const { data } = await clientAxios(
-          `/clients/?search=${searchValue}`,
-          config,
-        );
-        setClients(data.data.clients);
-      } else {
-        const { data } = await clientAxios('/clients', config);
-        setClients(data.data.clients);
+      if (page === undefined) {
+        page = 1;
       }
+      if (limit === undefined) {
+        limit = 5;
+      }
+
+      const { data } = await clientAxios(
+        `/clients/?search=${searchValue}&page=${page}&limit=${limit}`,
+        config,
+      );
+      setClients(data.data.clients);
+      setTotalClients(data.data.pagination.total);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -126,11 +136,29 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await clientAxios(`/clients/${idClient}`, config);
-    setClient(data.data.client);
+    try {
+      const { data } = await clientAxios(`/clients/${idClient}`, config);
+      setClient(data.data.client);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      setClient({});
+      navigate('/login/clients');
+    }
   };
 
-  const getSales = async ({ idClient }: { idClient?: string }) => {
+  const getSales = async ({
+    idClient,
+    page,
+    limit,
+    startDate,
+    endDate,
+  }: GetSaleProps) => {
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -139,20 +167,38 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    if (idClient !== undefined) {
+    if (page === undefined) {
+      page = 1;
+    }
+    if (limit === undefined) {
+      limit = 5;
+    }
+    try {
       const { data } = await clientAxios(
-        `/purchases/?client=${idClient}`,
+        `/purchases/?client=${idClient || ''}&page=${page}&limit=${limit}&startDate=${startDate || ''}&endDate=${endDate || ''}`,
         config,
       );
-      setSales(data.data.purchasesList);
-    }
-    if (idClient === undefined) {
-      const { data } = await clientAxios(`/purchases/`, config);
-      setSales(data.data.purchasesList);
+      setSales(data.data.purchases);
+      setTotalSales(data.data.pagination.total);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      setSales([]);
     }
   };
 
-  const getCollections = async ({ idClient }: { idClient?: string }) => {
+  const getCollections = async ({
+    idClient,
+    page,
+    limit,
+    startDate,
+    endDate,
+  }: GetCollectionProps) => {
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -161,16 +207,28 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    if (idClient !== undefined) {
+    if (page === undefined) {
+      page = 1;
+    }
+    if (limit === undefined) {
+      limit = 5;
+    }
+    try {
       const { data } = await clientAxios(
-        `/payments/?client=${idClient}`,
+        `/payments/?client=${idClient || ''}&page=${page}&limit=${limit}&startDate=${startDate || ''}&endDate=${endDate || ''}`,
         config,
       );
-      setCollections(data.data.paymentsList);
-    }
-    if (idClient === undefined) {
-      const { data } = await clientAxios(`/payments/`, config);
-      setCollections(data.data.paymentsList);
+      setCollections(data.data.payments);
+      setTotalCollections(data.data.pagination.total);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      setCollections([]);
     }
   };
 
@@ -198,7 +256,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     setSale(values);
 
     setInitialSale({
-      date: format(`${values.date}`, 'yyyy-MM-dd'),
+      date: formatDate(values.date || ''),
       items: (values.items ?? []).map((item) => ({
         name: item.name || '',
         description: item.description || '',
@@ -224,7 +282,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     setCollection(values);
 
     setInitialCollection({
-      date: format(`${values.date}`, 'yyyy-MM-dd'),
+      date: formatDate(values.date || ''),
       value: values.value || 0,
       note: values.note ?? '',
     });
@@ -451,10 +509,11 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         });
       } else {
         const { data } = await clientAxios.post(
-          `/purchases/?client=${client._id}`,
-          { newPurchase: values },
+          `/purchases`,
+          { newPurchase: { ...values, client: client._id } },
           config,
         );
+
         setSales([data.data.purchase, ...sales]);
 
         toast({
@@ -514,8 +573,8 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         });
       } else {
         const { data } = await clientAxios.post(
-          `/payments/?client=${client._id}`,
-          { newPayment: values },
+          `/payments`,
+          { newPayment: { ...values, client: client._id } },
           config,
         );
         setCollections([data.data.payment, ...collections]);
@@ -545,6 +604,9 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     <PrivateContext.Provider
       value={{
         pathname,
+        totalClients,
+        totalSales,
+        totalCollections,
 
         clients,
         client,

@@ -13,16 +13,16 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { format } from 'date-fns';
 
 import usePrivate from '../../hooks/private/usePrivate';
 import { SalePropsBD } from '../../interface/PrivateProps';
 import { addStyle, updateStyle } from '../authFormik/ButtonCustom';
 import ClientInfoView from './ClientInfoView';
+import { formatDate } from '../../helpers/formatDate';
 
 const SaleExpandable = ({ sale }: { sale: SalePropsBD }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { handleSale, onOpenSaleModal } = usePrivate();
+  const { pathname, handleSale, onOpenSaleModal } = usePrivate();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -39,7 +39,7 @@ const SaleExpandable = ({ sale }: { sale: SalePropsBD }) => {
             {...addStyle}
           />
         </Td>
-        <Td>{sale.date && format(sale.date, 'yyyy-MM-dd')}</Td>
+        <Td>{sale.date && formatDate(sale.date)}</Td>
         <Td>{sale.typePay}</Td>
         <Td>${sale.value}</Td>
       </Tr>
@@ -71,8 +71,8 @@ const SaleExpandable = ({ sale }: { sale: SalePropsBD }) => {
                 <Table variant="simple" size="sm">
                   <Thead>
                     <Tr>
-                      <Th>N°</Th>
                       <Th>Articulo</Th>
+                      <Th>Descripcion</Th>
                       <Th>Precio</Th>
                       <Th>Devuelto</Th>
                     </Tr>
@@ -92,7 +92,7 @@ const SaleExpandable = ({ sale }: { sale: SalePropsBD }) => {
               </Box>
             </Td>
           </Tr>
-          {sale.client && (
+          {sale.client && pathname === '/login/movements' && (
             <Tr backgroundColor="gray.100">
               <Td colSpan={4}>
                 <Box p="0" width="80%" mx="auto">

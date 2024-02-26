@@ -6,7 +6,9 @@ import {
   PublicProviderProps,
 } from '../interface/PublicProps';
 
-const PublicContext = createContext<PublicContextProps>({} as PublicContextProps);
+const PublicContext = createContext<PublicContextProps>(
+  {} as PublicContextProps,
+);
 
 export const PublicProvider = ({ children }: PublicProviderProps) => {
   const [auth, setAuth] = useState<AuthProps>({});
@@ -31,7 +33,6 @@ export const PublicProvider = ({ children }: PublicProviderProps) => {
       try {
         const { data } = await clientAxios('/users/profile', config);
         setAuth(data.data.user);
-        // setIsAuth(!!token);
       } catch (error) {
         setAuth({});
       }

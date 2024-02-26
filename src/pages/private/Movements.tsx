@@ -15,8 +15,8 @@ const Movements = () => {
   const { sales, collections, getSales, getCollections } = usePrivate();
 
   useEffect(() => {
-    getSales({ idClient: undefined });
-    getCollections({ idClient: undefined });
+    getSales({});
+    getCollections({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

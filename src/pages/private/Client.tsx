@@ -21,22 +21,12 @@ import { MdPayments } from 'react-icons/md';
 const Client = () => {
   const { id } = useParams();
 
-  const {
-    client,
-    sales,
-    collections,
-    getClient,
-    getCollections,
-    onOpenSaleModal,
-    onOpenCollectionModal,
-    getSales,
-  } = usePrivate();
+  const { client, getClient, onOpenSaleModal, onOpenCollectionModal } =
+    usePrivate();
 
   useEffect(() => {
     if (id !== undefined) {
       getClient(id);
-      getSales({ idClient: id });
-      getCollections({ idClient: id });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -83,8 +73,8 @@ const Client = () => {
           <CollectionModal />
         </Flex>
         <Box display={{ md: 'block', lg: 'flex' }}>
-          <SaleList sales={sales} />
-          <CollectionList collections={collections} />
+          <SaleList id={id} />
+          <CollectionList id={id} />
         </Box>
       </Box>
 

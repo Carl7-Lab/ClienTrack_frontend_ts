@@ -10,6 +10,7 @@ export { default as CollectionModal } from './CollectionModal';
 export { default as Footer } from './Footer';
 export { default as Header } from './Header';
 export { default as InputModal } from './InputModal';
+export { default as Pagination } from './Pagination';
 export { default as SaleExpandable } from './SaleExpandable';
 export { default as SaleList } from './SaleList';
 export { default as SaleModal } from './SaleModal';

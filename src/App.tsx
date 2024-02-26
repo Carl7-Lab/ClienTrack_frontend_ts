@@ -40,7 +40,7 @@ function App() {
                 <Route index element={<Navigate to="home" />} />
                 <Route path="home" element={<Home />} />
                 <Route path="clients" element={<Clients />} />
-                <Route path="sales" element={<Movements />} />
+                <Route path="movements" element={<Movements />} />
                 <Route path="clients/:id" element={<Client />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
