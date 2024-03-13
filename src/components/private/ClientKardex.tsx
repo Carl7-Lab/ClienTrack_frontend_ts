@@ -1,36 +1,30 @@
+import { useEffect, useState } from 'react';
+import usePrivate from '../../hooks/private/usePrivate';
+import { formatDate } from '../../helpers/formatDate';
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
   Card,
+  CardBody,
   CardHeader,
   Heading,
-  CardBody,
+  Table,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
+import { DateRangePicker, Pagination, RowKardexExpandable } from '.';
 
-import SaleExpandable from './SaleExpandable';
-import { Pagination } from '.';
-import DateRangePicker from './DateRangePicker';
-import usePrivate from '../../hooks/private/usePrivate';
-import { useEffect, useState } from 'react';
-import { formatDate } from '../../helpers/formatDate';
-
-const SaleList = ({ id }: { id?: string }) => {
-  const { sales, totalSales, getSales } = usePrivate();
+const ClientKardex = ({ id }: { id: string }) => {
+  const { rowsKardex, firstMoveDate, totalRows, getKardex } = usePrivate();
   const [currentPage, setCurrentPage] = useState(1);
-  //numero de ventas por pagina
+  //numero de movimientos por pagina
   const limit = 6;
 
-  const startOfMonth = new Date();
-  startOfMonth.setDate(1);
-
-  const [startDate, setStartDate] = useState<string>(formatDate(startOfMonth));
+  const [startDate, setStartDate] = useState<string>(formatDate(firstMoveDate));
   const [endDate, setEndDate] = useState<string>(formatDate(new Date()));
 
   useEffect(() => {
-    getSales({
+    getKardex({
       idClient: id,
       limit: limit,
       page: currentPage,
@@ -38,23 +32,23 @@ const SaleList = ({ id }: { id?: string }) => {
       endDate: endDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, startDate, endDate]);
+  }, [currentPage, startDate, endDate, rowsKardex.length]);
 
   return (
     <Card
       my="10px"
       mx={{ base: '10px', md: '20px', lg: '1%' }}
-      width={{ md: 'full', lg: '50%' }}
+      width={{ md: 'full', lg: '80%' }}
     >
       <CardHeader>
-        <Heading size="md">Movimientos de Ventas</Heading>
+        <Heading size="md">Kardex del Cliente</Heading>
       </CardHeader>
 
       <CardBody pt="0px">
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th colSpan={4}>
+              <Th colSpan={6}>
                 <DateRangePicker
                   startDate={startDate}
                   endDate={endDate}
@@ -64,33 +58,35 @@ const SaleList = ({ id }: { id?: string }) => {
               </Th>
             </Tr>
             <Tr>
-              <Th colSpan={4}>
+              <Th colSpan={6}>
                 <Pagination
                   limit={limit}
-                  total={totalSales}
+                  total={totalRows}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
                 />
               </Th>
             </Tr>
-            {sales.length === 0 ? (
+            {totalRows === 0 ? (
               <Tr>
-                <Th colSpan={4} fontSize="16px">
-                  No Hay Registros de Ventas
+                <Th colSpan={6} fontSize="16px">
+                  No Hay Registros de Movimientos
                 </Th>
               </Tr>
             ) : (
               <Tr height="45px">
-                <Th />
+                <Th></Th>
                 <Th fontSize="16px">Fecha</Th>
-                <Th fontSize="16px">Tipo de Pago</Th>
-                <Th fontSize="16px">Monto</Th>
+                <Th fontSize="16px">Descripción</Th>
+                <Th fontSize="16px">Debe</Th>
+                <Th fontSize="16px">Haber</Th>
+                <Th fontSize="16px">Saldo</Th>
               </Tr>
             )}
           </Thead>
           <Tbody>
-            {sales.map((sale, index) => (
-              <SaleExpandable key={index} sale={sale} />
+            {rowsKardex.map((rowKardex, index) => (
+              <RowKardexExpandable key={index} rowKardex={rowKardex} />
             ))}
           </Tbody>
         </Table>
@@ -99,4 +95,4 @@ const SaleList = ({ id }: { id?: string }) => {
   );
 };
 
-export default SaleList;
+export default ClientKardex;

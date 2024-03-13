@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text, VStack } from '@chakra-ui/react';
 
 import usePrivate from '../../hooks/private/usePrivate';
 import useCustomTitle from '../../hooks/public/useCustomTitle';
 import {
   AddressModal,
   ClientCard,
+  ClientKardex,
   ClientModal,
-  CollectionList,
   CollectionModal,
-  SaleList,
   SaleModal,
 } from '../../components/private';
 
@@ -21,8 +20,13 @@ import { MdPayments } from 'react-icons/md';
 const Client = () => {
   const { id } = useParams();
 
-  const { client, getClient, onOpenSaleModal, onOpenCollectionModal } =
-    usePrivate();
+  const {
+    client,
+    getClient,
+    onOpenSaleModal,
+    onOpenCollectionModal,
+    firstMoveDate,
+  } = usePrivate();
 
   useEffect(() => {
     if (id !== undefined) {
@@ -72,9 +76,9 @@ const Client = () => {
           <SaleModal />
           <CollectionModal />
         </Flex>
-        <Box display={{ md: 'block', lg: 'flex' }}>
-          <SaleList id={id} />
-          <CollectionList id={id} />
+
+        <Box display="block">
+          <VStack>{firstMoveDate && id && <ClientKardex id={id} />}</VStack>
         </Box>
       </Box>
 

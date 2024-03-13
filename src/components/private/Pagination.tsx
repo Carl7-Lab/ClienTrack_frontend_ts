@@ -29,7 +29,7 @@ const Pagination = ({
   };
 
   const getPageRange = () => {
-    const totalPages = Math.ceil(total / limit);
+    const totalPages = Math.max(Math.ceil(total / limit), 1);
 
     if (totalPages <= 1) {
       return [];
@@ -98,7 +98,7 @@ const Pagination = ({
           aria-label={''}
           icon={<RxDoubleArrowRight size="40px" />}
           onClick={handleNextPage}
-          isDisabled={currentPage === Math.ceil(total / limit)}
+          isDisabled={currentPage === Math.max(Math.ceil(total / limit), 1)}
           rounded="none"
           {...addStyle}
         />

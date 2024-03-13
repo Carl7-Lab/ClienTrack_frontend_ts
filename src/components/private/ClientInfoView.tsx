@@ -13,7 +13,7 @@ const ClientInfoView = ({
   };
 }) => {
   return (
-    <Text as={Link} to={`/login/clients/${client._id}`}>
+    <Text as={Link} to={`/app/clients/${client._id}`}>
       {client.name + ' ' + client.lastName + ' (' + client.alias + ') '}
     </Text>
   );

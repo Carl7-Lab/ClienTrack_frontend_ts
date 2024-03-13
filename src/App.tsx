@@ -11,7 +11,7 @@ import {
   NewPassword,
   Register,
 } from './pages/public';
-import { Client, Clients, Home, Movements } from './pages/private';
+import { Client, Clients, Home, Reports } from './pages/private';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -36,11 +36,11 @@ function App() {
                 <Route path="*" element={<PageNotFound />} />
               </Route>
 
-              <Route path="/login" element={<PrivateLayout />}>
+              <Route path="/app" element={<PrivateLayout />}>
                 <Route index element={<Navigate to="home" />} />
                 <Route path="home" element={<Home />} />
                 <Route path="clients" element={<Clients />} />
-                <Route path="movements" element={<Movements />} />
+                <Route path="reports" element={<Reports />} />
                 <Route path="clients/:id" element={<Client />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>

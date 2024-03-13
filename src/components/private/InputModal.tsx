@@ -7,7 +7,6 @@ import {
   Input,
   Textarea,
   Text,
-  Checkbox,
   Select,
 } from '@chakra-ui/react';
 
@@ -23,7 +22,8 @@ export interface InputProps {
     | 'date'
     | 'number'
     | 'checkbox'
-    | 'selectPay';
+    | 'selectPay'
+    | 'selectReason';
   placeholder?: string;
   isReq?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,8 +64,18 @@ const InputModal = ({ label, isReq, ...props }: InputProps) => {
             {...field}
             {...props}
           />
-        ) : props.type === 'checkbox' ? (
-          <Checkbox id={props.id} {...field} {...props} />
+        ) : props.type === 'selectReason' ? (
+          <>
+            <Select
+              id={props.id}
+              placeholder={props.placeholder}
+              {...field}
+              {...props}
+            >
+              <option value="Pago">Pago</option>
+              <option value="Devolucion">Devolución</option>
+            </Select>
+          </>
         ) : props.type === 'selectPay' ? (
           <>
             <Select

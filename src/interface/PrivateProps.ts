@@ -17,8 +17,27 @@ export interface PrivateProviderProps {
 export type PrivateContextProps = {
   pathname: string;
   totalClients: number;
-  totalSales: number;
-  totalCollections: number;
+
+  firstMoveDate: string;
+  report: ReportProps;
+  rowsKardex: RowKardexProps[];
+  debtors: DebtorProps[];
+  getReport: ({
+    startDate,
+    endDate,
+  }: {
+    startDate?: string | undefined;
+    endDate?: string | undefined;
+  }) => Promise<void>;
+  getDebtors: () => Promise<void>;
+  totalRows: number;
+  getKardex: ({
+    idClient,
+    page,
+    limit,
+    startDate,
+    endDate,
+  }: GetKardexProps) => Promise<void>;
 
   clients: ClientPropsBD[];
   client: ClientPropsBD;
@@ -51,31 +70,17 @@ export type PrivateContextProps = {
   onOpenAddressModal: () => void;
   onSubmitAddressModal: (values: AddressProps) => Promise<ToastId | undefined>;
 
-  sales: SalePropsBD[];
-  sale: SalePropsBD;
   initialSale: SaleProps;
   isOpenSaleModal: boolean;
   validationSaleModal: ValidationSaleModal;
-  getSales: ({ idClient, page, limit }: GetSaleProps) => Promise<void>;
-  handleSale: (values: SalePropsBD) => void;
-  handleResetSale: () => void;
   onCloseSaleModal: () => void;
   onOpenSaleModal: () => void;
   onSubmitSaleModal: (values: SaleProps) => Promise<void>;
 
-  collections: CollectionPropsBD[];
-  collection: CollectionPropsBD;
   initialCollection: CollectionProps;
   inputsCollection: InputProps[];
   isOpenCollectionModal: boolean;
   validationCollectionModal: ValidationCollectionModal;
-  getCollections: ({
-    idClient,
-    page,
-    limit,
-  }: GetCollectionProps) => Promise<void>;
-  handleCollection: (values: CollectionPropsBD) => void;
-  handleResetCollection: () => void;
   onCloseCollectionModal: () => void;
   onOpenCollectionModal: () => void;
   onSubmitCollectionModal: (values: CollectionProps) => Promise<void>;
@@ -133,6 +138,7 @@ export interface CollectionPropsBD {
   date?: string;
   value?: number;
   note?: string;
+  reason?: string;
   _id?: string;
   client?: {
     name?: string;
@@ -149,20 +155,50 @@ export interface GetClientProps {
   limit?: number;
 }
 
-export interface GetSaleProps {
-  idClient?: string;
+export interface ClientReportProps {
+  clientId?: string;
+  name?: string;
+  lastName?: string;
+  alias?: string;
+  value?: number;
+}
+
+export interface TransactionDetailProps {
+  value?: number;
+  clientsDetails?: ClientReportProps[];
+}
+
+export interface ReportProps {
+  purchases?: TransactionDetailProps;
+  payments?: {
+    value?: number;
+    paymentsDetails?: TransactionDetailProps;
+    purchasesPayDetails?: TransactionDetailProps;
+    returnsDetails?: TransactionDetailProps;
+  };
+}
+
+export interface GetKardexProps {
+  idClient: string;
   page?: number;
   limit?: number;
   startDate?: string;
   endDate?: string;
 }
 
-export interface GetCollectionProps {
-  idClient?: string;
-  page?: number;
-  limit?: number;
-  startDate?: string;
-  endDate?: string;
+export interface RowKardexProps {
+  balance?: number;
+  credit?: number;
+  date?: string;
+  debit?: number;
+  description?: string;
+  typeModel?: 'Payment' | 'Purchase';
+  type?: SalePropsBD | CollectionPropsBD;
+}
+
+export interface DebtorProps {
+  client?: ClientPropsBD;
+  lastRowKardex?: RowKardexProps;
 }
 
 type ValidationClientModal = Yup.ObjectSchema<

@@ -36,7 +36,7 @@ const useLogin = () => {
       const { data } = await clientAxios.post('/users/login', values);
       localStorage.setItem('token', data.data.user.token);
       setAuth(data.data.user);
-      navigate('/login');
+      navigate('/app');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

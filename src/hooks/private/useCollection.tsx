@@ -7,6 +7,7 @@ import { InputProps } from '../../components/private/InputModal';
 export interface ValuesProps {
   date: string;
   value: number;
+  reason: 'Pago' | 'Devolucion' | '';
   note?: string;
 }
 
@@ -34,6 +35,7 @@ const useCollection = () => {
   const [initialCollection, setInitialCollection] = useState<ValuesProps>({
     date: '',
     value: 0,
+    reason: '',
     note: '',
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,6 +53,9 @@ const useCollection = () => {
   const validationCollectionModal = Yup.object({
     date: Yup.string().required('Requerido'),
     value: Yup.number().required('Requerido').positive('Mayor a 0'),
+    reason: Yup.string()
+      .required('Requerido')
+      .oneOf(['Pago', 'Devolucion'], 'Razón no válido'),
     note: Yup.string().min(2, 'Mínimo 2 caracteres'),
   });
 

@@ -30,7 +30,7 @@ const PublicLayout = () => {
           justifyContent={{ md: 'center' }}
           width={{ base: '100%', sm: '80%', md: '70%', lg: '60%' }}
         >
-          {_id ? <Navigate to="/login" /> : <Outlet />}
+          {_id ? <Navigate to="/app" /> : <Outlet />}
         </Container>
       </Flex>
     </>

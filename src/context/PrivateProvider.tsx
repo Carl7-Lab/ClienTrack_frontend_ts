@@ -6,13 +6,13 @@ import { useToast } from '@chakra-ui/react';
 import {
   AddressPropsBD,
   ClientPropsBD,
-  CollectionPropsBD,
+  DebtorProps,
   GetClientProps,
-  GetCollectionProps,
-  GetSaleProps,
+  GetKardexProps,
   PrivateContextProps,
   PrivateProviderProps,
-  SalePropsBD,
+  ReportProps,
+  RowKardexProps,
 } from '../interface/PrivateProps';
 
 import {
@@ -26,7 +26,6 @@ import {
   useSale,
   useSearch,
 } from '../hooks/private';
-import { formatDate } from '../helpers/formatDate';
 
 const PrivateContext = createContext<PrivateContextProps>(
   {} as PrivateContextProps,
@@ -37,12 +36,11 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   const [client, setClient] = useState<ClientPropsBD>({});
   const [totalClients, setTotalClients] = useState(0);
   const [address, setAddress] = useState<AddressPropsBD>({});
-  const [sales, setSales] = useState<SalePropsBD[]>([]);
-  const [sale, setSale] = useState<SalePropsBD>({});
-  const [totalSales, setTotalSales] = useState(0);
-  const [collections, setCollections] = useState<CollectionPropsBD[]>([]);
-  const [collection, setCollection] = useState<CollectionPropsBD>({});
-  const [totalCollections, setTotalCollections] = useState(0);
+  const [report, setReport] = useState<ReportProps>({});
+  const [rowsKardex, setRowsKardex] = useState<RowKardexProps[]>([]);
+  const [firstMoveDate, setFirstMoveDate] = useState('');
+  const [totalRows, setTotalRows] = useState(0);
+  const [debtors, setDebtors] = useState<DebtorProps[]>([]);
 
   const { pathname } = useLocation();
   const toast = useToast();
@@ -74,7 +72,6 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     validationSaleModal,
     onCloseSaleModal,
     onOpenSaleModal,
-    setInitialSale,
   } = useSale();
 
   const {
@@ -84,7 +81,6 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     validationCollectionModal,
     onCloseCollectionModal,
     onOpenCollectionModal,
-    setInitialCollection,
   } = useCollection();
 
   const { isOpenSearchModal, onCloseSearchModal, onOpenSearchModal } =
@@ -139,6 +135,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     try {
       const { data } = await clientAxios(`/clients/${idClient}`, config);
       setClient(data.data.client);
+      setFirstMoveDate(data.data.firstMoveDate);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
@@ -148,17 +145,50 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         isClosable: true,
       });
       setClient({});
-      navigate('/login/clients');
+      navigate('/app/clients');
     }
   };
 
-  const getSales = async ({
+  const getReport = async ({
+    startDate,
+    endDate,
+  }: {
+    startDate?: string;
+    endDate?: string;
+  }) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const { data } = await clientAxios(
+        `/analytics/report/?startDate=${startDate || ''}&endDate=${endDate || ''}`,
+        config,
+      );
+      setReport(data.data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: error.response.data.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const getKardex = async ({
     idClient,
     page,
     limit,
     startDate,
     endDate,
-  }: GetSaleProps) => {
+  }: GetKardexProps) => {
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -173,13 +203,14 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     if (limit === undefined) {
       limit = 5;
     }
+
     try {
       const { data } = await clientAxios(
-        `/purchases/?client=${idClient || ''}&page=${page}&limit=${limit}&startDate=${startDate || ''}&endDate=${endDate || ''}`,
+        `/analytics/kardex/${idClient}?page=${page}&limit=${limit}&startDate=${startDate || ''}&endDate=${endDate || ''}`,
         config,
       );
-      setSales(data.data.purchases);
-      setTotalSales(data.data.pagination.total);
+      setTotalRows(data.data.pagination.total);
+      setRowsKardex(data.data.rowsKardex);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
@@ -188,17 +219,11 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         duration: 5000,
         isClosable: true,
       });
-      setSales([]);
+      setRowsKardex([]);
     }
   };
 
-  const getCollections = async ({
-    idClient,
-    page,
-    limit,
-    startDate,
-    endDate,
-  }: GetCollectionProps) => {
+  const getDebtors = async () => {
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -207,19 +232,11 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    if (page === undefined) {
-      page = 1;
-    }
-    if (limit === undefined) {
-      limit = 5;
-    }
+
     try {
-      const { data } = await clientAxios(
-        `/payments/?client=${idClient || ''}&page=${page}&limit=${limit}&startDate=${startDate || ''}&endDate=${endDate || ''}`,
-        config,
-      );
-      setCollections(data.data.payments);
-      setTotalCollections(data.data.pagination.total);
+      const { data } = await clientAxios(`/analytics/client-reports`, config);
+      // console.log('obtener deudores', data.data.debtors);
+      setDebtors(data.data.debtors);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
@@ -228,7 +245,6 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         duration: 5000,
         isClosable: true,
       });
-      setCollections([]);
     }
   };
 
@@ -249,51 +265,6 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       description: '',
       alias: '',
       addresses: [],
-    });
-  };
-
-  const handleSale = (values: SalePropsBD) => {
-    setSale(values);
-
-    setInitialSale({
-      date: formatDate(values.date || ''),
-      items: (values.items ?? []).map((item) => ({
-        name: item.name || '',
-        description: item.description || '',
-        value: item.value || 0,
-        returned: item.returned || false,
-      })),
-      note: values.note ?? '',
-      typePay: values.typePay ?? '',
-    });
-  };
-
-  const handleResetSale = () => {
-    setSale({});
-    setInitialSale({
-      date: '',
-      items: [{ name: '', description: '', value: 0, returned: false }],
-      note: '',
-      typePay: '',
-    });
-  };
-
-  const handleCollection = (values: CollectionPropsBD) => {
-    setCollection(values);
-
-    setInitialCollection({
-      date: formatDate(values.date || ''),
-      value: values.value || 0,
-      note: values.note ?? '',
-    });
-  };
-
-  const handleResetCollection = () => {
-    setCollection({});
-    setInitialCollection({
-      date: '',
-      value: 0,
-      note: '',
     });
   };
 
@@ -379,7 +350,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         });
       }
 
-      if (pathname === '/login/clients') handleResetClient();
+      if (pathname === '/app/clients') handleResetClient();
       onCloseClientModal();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -460,7 +431,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       );
       setClients(updateClients);
 
-      if (pathname === '/login/clients') handleResetAddress();
+      if (pathname === '/app/clients') handleResetAddress();
       onCloseAddressModal();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -484,48 +455,22 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         },
       };
 
-      if (sale._id) {
-        const { data } = await clientAxios.put(
-          `/purchases/${sale._id}`,
-          {
-            updatePurchase: values,
-          },
-          config,
-        );
+      const { data } = await clientAxios.post(
+        `/purchases`,
+        { newPurchase: { ...values, client: client._id } },
+        config,
+      );
 
-        const updatePurchases = sales.map((saleState) =>
-          saleState._id === data.data.updatePurchase._id
-            ? data.data.updatePurchase
-            : saleState,
-        );
+      setRowsKardex([data.data.rowKardex, ...rowsKardex]);
 
-        setSales(updatePurchases);
-
-        toast({
-          title: 'Venta Actualizada',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        const { data } = await clientAxios.post(
-          `/purchases`,
-          { newPurchase: { ...values, client: client._id } },
-          config,
-        );
-
-        setSales([data.data.purchase, ...sales]);
-
-        toast({
-          title: 'Venta Agregada',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      }
+      toast({
+        title: 'Venta Agregada',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
 
       onCloseSaleModal();
-      handleResetSale();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({
@@ -548,46 +493,21 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         },
       };
 
-      if (collection._id) {
-        const { data } = await clientAxios.put(
-          `/payments/${collection._id}`,
-          {
-            updatePayment: values,
-          },
-          config,
-        );
+      const { data } = await clientAxios.post(
+        `/payments`,
+        { newPayment: { ...values, client: client._id } },
+        config,
+      );
 
-        const updatePayments = collections.map((collectionState) =>
-          collectionState._id === data.data.updatePayment._id
-            ? data.data.updatePayment
-            : collectionState,
-        );
+      setRowsKardex([data.data.rowKardex, ...rowsKardex]);
 
-        setCollections(updatePayments);
+      toast({
+        title: 'Cobro Agregado',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
 
-        toast({
-          title: 'Cobro Actualizado',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        const { data } = await clientAxios.post(
-          `/payments`,
-          { newPayment: { ...values, client: client._id } },
-          config,
-        );
-        setCollections([data.data.payment, ...collections]);
-
-        toast({
-          title: 'Cobro Agregado',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-
-      handleResetCollection();
       onCloseCollectionModal();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -605,8 +525,15 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       value={{
         pathname,
         totalClients,
-        totalSales,
-        totalCollections,
+        report,
+        debtors,
+
+        totalRows,
+        rowsKardex,
+        firstMoveDate,
+        getReport,
+        getDebtors,
+        getKardex,
 
         clients,
         client,
@@ -633,27 +560,17 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         onOpenAddressModal,
         onSubmitAddressModal,
 
-        sales,
-        sale,
         initialSale,
         isOpenSaleModal,
         validationSaleModal,
-        handleSale,
-        handleResetSale,
-        getSales,
         onCloseSaleModal,
         onOpenSaleModal,
         onSubmitSaleModal,
 
-        collections,
-        collection,
         initialCollection,
         inputsCollection,
         isOpenCollectionModal,
         validationCollectionModal,
-        handleCollection,
-        handleResetCollection,
-        getCollections,
         onCloseCollectionModal,
         onOpenCollectionModal,
         onSubmitCollectionModal,

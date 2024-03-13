@@ -87,7 +87,7 @@ const ClientCard = ({ client }: { client: ClientPropsBD }) => {
           </Box>
         </CardBody>
 
-        {pathname === '/login/clients' && (
+        {pathname === '/app/clients' && (
           <CardFooter pt="10px" display="flex" justifyContent="flex-end">
             <Button
               as={Link}

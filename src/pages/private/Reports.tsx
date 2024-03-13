@@ -3,8 +3,8 @@ import { Box } from '@chakra-ui/react';
 import useCustomTitle from '../../hooks/public/useCustomTitle';
 import { DebtorCard, ReportCard } from '../../components/private';
 
-const Home = () => {
-  useCustomTitle('Inicio | ClienTrack');
+const Reports = () => {
+  useCustomTitle('Reportes | ClienTrack');
 
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
@@ -18,4 +18,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Reports;

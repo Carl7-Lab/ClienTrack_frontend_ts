@@ -36,7 +36,7 @@ const AddressModal = () => {
         isOpen={isOpenAdressModal}
         onClose={() => {
           onCloseAddressModal();
-          if (pathname === '/login/clients') handleResetAddress();
+          if (pathname === '/app/clients') handleResetAddress();
         }}
       >
         <ModalOverlay />

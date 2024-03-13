@@ -36,7 +36,7 @@ const ClientModal = () => {
         isOpen={isOpenClientModal}
         onClose={() => {
           onCloseClientModal();
-          if (pathname === '/login/clients') handleResetClient();
+          if (pathname === '/app/clients') handleResetClient();
         }}
       >
         <ModalOverlay />

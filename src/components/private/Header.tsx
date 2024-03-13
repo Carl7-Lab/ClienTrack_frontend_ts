@@ -23,7 +23,7 @@ const Header = ({ page }: { page: string }) => {
     >
       <Flex justifyContent="space-between" alignItems="center">
         <Text>
-          <Link color="teal.500" href="/login">
+          <Link color="teal.500" href="/app">
             <Image
               height={{ base: '30px', sm: '40px', md: '70px' }}
               objectFit="fill"

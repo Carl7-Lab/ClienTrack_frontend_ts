@@ -18,14 +18,12 @@ import { colors } from '../../styles/colors';
 
 const CollectionModal = () => {
   const {
-    collection,
     isOpenCollectionModal,
     inputsCollection,
     initialCollection,
     validationCollectionModal,
     onSubmitCollectionModal,
     onCloseCollectionModal,
-    handleResetCollection,
   } = usePrivate();
 
   return (
@@ -34,17 +32,12 @@ const CollectionModal = () => {
       isOpen={isOpenCollectionModal}
       onClose={() => {
         onCloseCollectionModal();
-        handleResetCollection();
       }}
     >
       <ModalOverlay />
       <ModalContent mx="10px">
         <ModalHeader textColor={colors.one} fontWeight="bold">
-          {collection._id ? (
-            <Text>Actualizar Cobro</Text>
-          ) : (
-            <Text>Agregar Cobro</Text>
-          )}
+          <Text>Agregar Cobro</Text>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
@@ -58,11 +51,16 @@ const CollectionModal = () => {
                 {inputsCollection.map((collection) => (
                   <InputModal key={collection.name} {...collection} />
                 ))}
-                {collection._id ? (
-                  <ButtonCustom text="Actualizar Cobro" />
-                ) : (
-                  <ButtonCustom text="Agregar Cobro" />
-                )}
+
+                <InputModal
+                  label="Razon de Cobro"
+                  name="reason"
+                  type="selectReason"
+                  placeholder="Seleccione Razon de Pago"
+                  isReq={true}
+                />
+
+                <ButtonCustom text="Agregar Cobro" />
               </VStack>
             </Form>
           </Formik>

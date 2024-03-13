@@ -25,13 +25,11 @@ import { colors } from '../../styles/colors';
 
 const SaleModal = () => {
   const {
-    sale,
     initialSale,
     isOpenSaleModal,
     validationSaleModal,
     onCloseSaleModal,
     onSubmitSaleModal,
-    handleResetSale,
   } = usePrivate();
 
   const capitalizeFirstLetter = (str: string) =>
@@ -44,17 +42,12 @@ const SaleModal = () => {
         isOpen={isOpenSaleModal}
         onClose={() => {
           onCloseSaleModal();
-          handleResetSale();
         }}
       >
         <ModalOverlay />
         <ModalContent mx="10px">
           <ModalHeader textColor={colors.one} fontWeight="bold">
-            {sale._id ? (
-              <Text>Actualizar Venta</Text>
-            ) : (
-              <Text>Agregar Venta</Text>
-            )}
+            <Text>Agregar Venta</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -176,11 +169,7 @@ const SaleModal = () => {
                     isReq={true}
                   />
 
-                  {sale._id ? (
-                    <ButtonCustom text="Actualizar Venta" mt="30px" />
-                  ) : (
-                    <ButtonCustom text="Agregar Venta" mt="30px" />
-                  )}
+                  <ButtonCustom text="Agregar Venta" mt="30px" />
                 </Form>
               )}
             </Formik>

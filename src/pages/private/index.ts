@@ -1,4 +1,4 @@
 export { default as Client } from './Client';
 export { default as Clients } from './Clients';
 export { default as Home } from './Home';
-export { default as Movements } from './Movements';
+export { default as Reports } from './Reports';
