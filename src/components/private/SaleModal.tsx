@@ -92,7 +92,7 @@ const SaleModal = () => {
                   <FieldArray name="items">
                     {(arrayHelpers) => (
                       <VStack spacing={4} align="stretch">
-                        {values.items.map((item, index) => (
+                        {values.items.map((_item, index) => (
                           <Box key={index}>
                             <HStack spacing={4}>
                               {['name', 'description', 'value'].map(

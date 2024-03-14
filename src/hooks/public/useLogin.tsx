@@ -32,6 +32,7 @@ const useLogin = () => {
   });
 
   const onSubmit = async (values: ValuesProps) => {
+    console.log(import.meta.env.VITE_BACKEND_URL);
     try {
       const { data } = await clientAxios.post('/users/login', values);
       localStorage.setItem('token', data.data.user.token);
@@ -40,6 +41,7 @@ const useLogin = () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      console.log(error);
       viewAlert({
         alert: { status: 'error', msg: error.response.data.message },
       });
