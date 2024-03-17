@@ -15,6 +15,7 @@ import usePrivate from '../../hooks/private/usePrivate';
 import ButtonCustom from '../authFormik/ButtonCustom';
 
 import { colors } from '../../styles/colors';
+import LocationInput from './LocationInput';
 
 const AddressModal = () => {
   const {
@@ -61,6 +62,8 @@ const AddressModal = () => {
                     <InputModal key={input.name} {...input} />
                   ))}
 
+                  {/* <LocationInput /> */}
+
                   {address._id ? (
                     <ButtonCustom text="Editar Dirección" />
                   ) : (
@@ -69,6 +72,8 @@ const AddressModal = () => {
                 </VStack>
               </Form>
             </Formik>
+
+            <LocationInput />
           </ModalBody>
         </ModalContent>
       </Modal>

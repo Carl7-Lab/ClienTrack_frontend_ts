@@ -32,7 +32,6 @@ const useLogin = () => {
   });
 
   const onSubmit = async (values: ValuesProps) => {
-    console.log(import.meta.env.VITE_BACKEND_URL);
     try {
       const { data } = await clientAxios.post('/users/login', values);
       localStorage.setItem('token', data.data.user.token);
