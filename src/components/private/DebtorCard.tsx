@@ -21,7 +21,7 @@ const DebtorCard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('lista de deudores', debtors);
+  // console.log('lista de deudores', debtors);
 
   return (
     <Card
