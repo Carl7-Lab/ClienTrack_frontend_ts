@@ -7,6 +7,10 @@ import { colors } from '../../styles/colors';
 const Footer = () => {
   const { pathname } = usePrivate();
 
+  const widthP: number = 100 / navigationLinks.length;
+
+  console.log(`${widthP}%`);
+
   return (
     <>
       <Box
@@ -18,11 +22,14 @@ const Footer = () => {
         zIndex="999"
         backgroundColor={colors.white}
         display={{ base: 'block', md: 'none' }}
+        boxShadow="0px -2px 4px rgba(0, 0, 0, 0.1)"
       >
         <Flex
           as="nav"
+          width="300px"
           align="center"
-          justify="space-between"
+          justify="center"
+          mx="auto"
           backgroundColor={colors.white}
         >
           {navigationLinks.map(({ path, icon, label }) => (
@@ -31,9 +38,9 @@ const Footer = () => {
               href={path}
               fontWeight={pathname.includes(path) ? 'bold' : 'normal'}
               textColor={pathname.includes(path) ? colors.one : colors.three}
-              width="33%"
+              width={`${widthP}%`}
               textAlign="center"
-              px="auto"
+              px="20px"
               py={{ base: '20px', sm: '20px', md: '30px' }}
               display="flex"
               flexDirection="column"
@@ -61,6 +68,7 @@ const Footer = () => {
         backgroundColor={colors.white}
         py={{ base: '20px', sm: '20px', md: '30px' }}
         display={{ base: 'none', md: 'block' }}
+        boxShadow="0px -2px 4px rgba(0, 0, 0, 0.1)"
       >
         <Flex justify="center" align="center" direction="column">
           <Text>&copy; 2024 ClienTrack. Todos los derechos reservados.</Text>

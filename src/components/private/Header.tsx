@@ -20,6 +20,7 @@ const Header = ({ page }: { page: string }) => {
       backgroundColor={colors.white}
       px={{ base: '10px', sm: '20px', md: '30px' }}
       py={{ base: '20px', sm: '20px', md: '30px' }}
+      boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
     >
       <Flex justifyContent="space-between" alignItems="center">
         <Text>
@@ -47,7 +48,7 @@ const Header = ({ page }: { page: string }) => {
           align="center"
           justify="space-between"
           backgroundColor={colors.white}
-          width="30%"
+          // width="25%"
           fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }}
           display={{ base: 'none', md: 'flex' }}
         >
@@ -60,11 +61,10 @@ const Header = ({ page }: { page: string }) => {
               backgroundColor={
                 pathname.includes(path) ? colors.three : colors.white
               }
-              width="33%"
+              // width="50%"
               textAlign="center"
-              px="auto"
+              px="20px"
               py={{ base: '20px', sm: '20px', md: '30px' }}
-              display="flex"
               flexDirection="column"
               alignItems="center"
             >

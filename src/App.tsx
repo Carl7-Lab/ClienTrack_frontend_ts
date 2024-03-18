@@ -14,8 +14,8 @@ import {
 import {
   Client,
   Clients,
-  Home,
-  // Reports
+  // Home,
+  Reports,
 } from './pages/private';
 import PageNotFound from './pages/PageNotFound';
 
@@ -42,10 +42,10 @@ function App() {
               </Route>
 
               <Route path="/app" element={<PrivateLayout />}>
-                <Route index element={<Navigate to="home" />} />
-                <Route path="home" element={<Home />} />
+                <Route index element={<Navigate to="clients" />} />
                 <Route path="clients" element={<Clients />} />
-                {/* <Route path="reports" element={<Reports />} /> */}
+                {/* <Route path="home" element={<Home />} /> */}
+                <Route path="reports" element={<Reports />} />
                 <Route path="clients/:id" element={<Client />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
