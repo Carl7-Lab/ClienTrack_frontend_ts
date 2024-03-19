@@ -9,8 +9,6 @@ const Footer = () => {
 
   const widthP: number = 100 / navigationLinks.length;
 
-  console.log(`${widthP}%`);
-
   return (
     <>
       <Box

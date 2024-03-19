@@ -88,12 +88,13 @@ const TransactionDetailExpandable = ({
                     clientsList.map((client, index) => (
                       <Tr key={index}>
                         <Td>
-                          {client.name +
-                            ' ' +
-                            client.lastName +
-                            ' (' +
-                            client.alias +
-                            '): '}
+                          {client.name + ' ' + client.lastName}
+                          <Text
+                            as="span"
+                            display={client.alias ? 'bolk' : 'none'}
+                          >
+                            {' (' + client.alias + ') '}
+                          </Text>
                         </Td>
                         <Td>${client.value}</Td>
                       </Tr>

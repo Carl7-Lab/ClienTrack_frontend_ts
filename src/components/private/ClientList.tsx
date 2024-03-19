@@ -16,6 +16,11 @@ const ClientList = () => {
       {clients.map((client) => (
         <ClientCard key={client._id} client={client} />
       ))}
+      {clients.length < 2 && (
+        <Flex>
+          <Card></Card>
+        </Flex>
+      )}
       {clients.length < 3 && (
         <Flex>
           <Card></Card>

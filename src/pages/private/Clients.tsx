@@ -47,9 +47,9 @@ const Clients = () => {
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
       <Flex
-        justifyContent="flex-end"
+        align="center"
+        justify="center"
         my={{ base: '10px', sm: '15px', md: '20px' }}
-        mr={{ base: '10px', sm: '20px', md: '30px' }}
       >
         <Search searchValue={searchValue} setSearchValue={setSearchValue} />
 

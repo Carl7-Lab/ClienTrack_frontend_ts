@@ -39,6 +39,10 @@ const Client = () => {
     `Infomación ${client.name + ' ' + client.lastName + ' (' + client.alias + ')'} | ClienTrack`,
   );
 
+  console.log(
+    `Infomación ${client.name + ' ' + client.lastName} ${client.alias ? ' (' + client.alias + ')' : ''} | ClienTrack`,
+  );
+
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
       <Box mt="20px" mx={{ base: '10px', sm: '20px', md: '30px' }}>

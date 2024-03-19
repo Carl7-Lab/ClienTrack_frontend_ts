@@ -42,8 +42,12 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
         </Th>
         <Th fontSize="16px" height="60px" alignItems="center">
           <Text>
-            {client &&
-              client.name + ' ' + client.lastName + ' (' + client.alias + '): '}
+            {/* {client &&
+              client.name + ' ' + client.lastName + ' (' + client.alias + '): '} */}
+            {client && client.name + ' ' + client.lastName}
+            <Text as="span" display={client && client.alias ? 'bolk' : 'none'}>
+              {client && ' (' + client.alias + ') '}
+            </Text>
           </Text>
         </Th>
         <Th fontSize="16px" height="60px" alignItems="center">
