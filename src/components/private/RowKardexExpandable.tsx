@@ -16,7 +16,13 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { addStyle } from '../authFormik/ButtonCustom';
 import { formatDate } from '../../helpers/formatDate';
 
-const RowKardexExpandable = ({ rowKardex }: { rowKardex: RowKardexProps }) => {
+const RowKardexExpandable = ({
+  rowKardex,
+  isFirst,
+}: {
+  rowKardex: RowKardexProps;
+  isFirst: boolean;
+}) => {
   const { balance, credit, date, debit, description, type, typeModel } =
     rowKardex;
 
@@ -39,9 +45,11 @@ const RowKardexExpandable = ({ rowKardex }: { rowKardex: RowKardexProps }) => {
         </Td>
         <Td>{date && formatDate(date)}</Td>
         <Td>{description}</Td>
-        <Td>{debit}</Td>
-        <Td>{credit}</Td>
-        <Td>{balance}</Td>
+        <Td>${debit?.toFixed(2)}</Td>
+        <Td>${credit?.toFixed(2)}</Td>
+        <Td style={{ fontWeight: isFirst ? 'bold' : 'normal' }}>
+          ${balance?.toFixed(2)}
+        </Td>
       </Tr>
       {isOpen && (
         <Tr backgroundColor="gray.100">
@@ -73,7 +81,7 @@ const RowKardexExpandable = ({ rowKardex }: { rowKardex: RowKardexProps }) => {
                       <Tr key={item._id}>
                         <Td>{item.name}</Td>
                         <Td>{item.description}</Td>
-                        <Td>${item.value}</Td>
+                        <Td>${item.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
                 </Tbody>

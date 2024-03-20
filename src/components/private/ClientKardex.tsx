@@ -86,7 +86,11 @@ const ClientKardex = ({ id }: { id: string }) => {
           </Thead>
           <Tbody>
             {rowsKardex.map((rowKardex, index) => (
-              <RowKardexExpandable key={index} rowKardex={rowKardex} />
+              <RowKardexExpandable
+                key={index}
+                rowKardex={rowKardex}
+                isFirst={index === 0}
+              />
             ))}
           </Tbody>
         </Table>

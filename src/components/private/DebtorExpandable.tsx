@@ -29,6 +29,7 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
     setMore(!more);
   };
 
+  // console.log('ultima transaccion', lastRowKardex);
   return (
     <>
       <Tr>
@@ -42,8 +43,6 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
         </Th>
         <Th fontSize="16px" height="60px" alignItems="center">
           <Text>
-            {/* {client &&
-              client.name + ' ' + client.lastName + ' (' + client.alias + '): '} */}
             {client && client.name + ' ' + client.lastName}
             <Text as="span" display={client && client.alias ? 'bolk' : 'none'}>
               {client && ' (' + client.alias + ') '}
@@ -51,7 +50,7 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
           </Text>
         </Th>
         <Th fontSize="16px" height="60px" alignItems="center">
-          ${lastRowKardex?.balance}
+          ${lastRowKardex?.balance?.toFixed(2)}
         </Th>
       </Tr>
       {isOpen && (
@@ -70,7 +69,13 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
                           lastRowKardex.date &&
                           formatDate(lastRowKardex?.date)}
                       </Td>
-                      <Td>{lastRowKardex?.description}</Td>
+                      {lastRowKardex?.description?.includes('Compra') && (
+                        <Td>${lastRowKardex?.debit?.toFixed(2)}</Td>
+                      )}
+                      {lastRowKardex?.description?.includes('Pago') ||
+                        (lastRowKardex?.description?.includes('Devolucion') && (
+                          <Td>${lastRowKardex?.credit?.toFixed(2)}</Td>
+                        ))}
                       <Td>
                         <IconButton
                           icon={more ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -109,7 +114,7 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
                                       <Tr key={item._id}>
                                         <Td>{item.name}</Td>
                                         <Td>{item.description}</Td>
-                                        <Td>${item.value}</Td>
+                                        <Td>${item.value?.toFixed(2)}</Td>
                                       </Tr>
                                     ))}
                                 </Tbody>

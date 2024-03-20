@@ -58,7 +58,7 @@ const SalesReportExpandable = ({
           display="flex"
           alignItems="center"
         >
-          ${report?.value}
+          ${report?.value?.toFixed(2)}
         </Th>
       </Tr>
       {isOpen && (
@@ -79,7 +79,7 @@ const SalesReportExpandable = ({
                             {' (' + client.alias + ') '}
                           </Text>
                         </Td>
-                        <Td>${client.value}</Td>
+                        <Td>${client.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
                 </Tbody>

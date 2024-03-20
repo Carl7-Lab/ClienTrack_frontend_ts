@@ -36,10 +36,6 @@ const Client = () => {
   }, [id]);
 
   useCustomTitle(
-    `Infomación ${client.name + ' ' + client.lastName + ' (' + client.alias + ')'} | ClienTrack`,
-  );
-
-  console.log(
     `Infomación ${client.name + ' ' + client.lastName} ${client.alias ? ' (' + client.alias + ')' : ''} | ClienTrack`,
   );
 

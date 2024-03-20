@@ -73,7 +73,7 @@ const CollectionsReportExpandable = ({
           display="flex"
           alignItems="center"
         >
-          ${report?.value}
+          ${report?.value?.toFixed(2)}
         </Th>
       </Tr>
       {isOpen && (
