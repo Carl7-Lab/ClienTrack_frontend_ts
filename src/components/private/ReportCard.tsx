@@ -10,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  VStack,
 } from '@chakra-ui/react';
 import usePrivate from '../../hooks/private/usePrivate';
 import {
@@ -57,8 +58,10 @@ const ReportCard = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <SalesReportExpandable report={report.purchases} />
-            <CollectionsReportExpandable report={report.payments} />
+            <VStack>
+              <SalesReportExpandable report={report.purchases} />
+              <CollectionsReportExpandable report={report.payments} />
+            </VStack>
           </Tbody>
         </Table>
       </CardBody>
