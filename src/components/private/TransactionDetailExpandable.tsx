@@ -44,14 +44,19 @@ const TransactionDetailExpandable = ({
   return (
     <>
       <Tr
-        height="60px"
-        p="10px"
-        display="flex"
-        alignContent="space-between"
-        alignItems="center"
-        width="100%"
+      // height="60px"
+      // p="10px"
+      // display="flex"
+      // alignContent="space-between"
+      // alignItems="center"
+      // width="90%"
       >
-        <Th width="33%" height="60px" display="flex" alignItems="center">
+        <Th
+          // width="33%"
+          height="60px"
+          // display="flex"
+          alignItems="center"
+        >
           <IconButton
             icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
             onClick={handleToggle}
@@ -60,19 +65,19 @@ const TransactionDetailExpandable = ({
           />
         </Th>
         <Th
-          width="33%"
+          // width="33%"
           fontSize="16px"
           height="60px"
-          display="flex"
+          // display="flex"
           alignItems="center"
         >
           <Text>{title}</Text>
         </Th>
         <Th
-          width="33%"
+          // width="33%"
           fontSize="16px"
           height="60px"
-          display="flex"
+          // display="flex"
           alignItems="center"
         >
           ${totalValue?.toFixed(2)}
@@ -81,7 +86,7 @@ const TransactionDetailExpandable = ({
       {isOpen && (
         <Tr backgroundColor="gray.100">
           <Td colSpan={3}>
-            <Box p="20px" width="97%" mx="auto">
+            <Box py="20px" px="10px" width="97%" mx="auto">
               <Table variant="simple" size="sm">
                 <Tbody>
                   {clientsList &&
@@ -99,6 +104,26 @@ const TransactionDetailExpandable = ({
                         <Td>${client.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
+                  {clientsList?.length === 0 &&
+                    ((title?.includes('Pago de Credito') && (
+                      <Tr>
+                        <Td colSpan={3}>
+                          No hay registros de pagos de credito
+                        </Td>
+                      </Tr>
+                    )) ||
+                      (title?.includes('Pago al Contado') && (
+                        <Tr>
+                          <Td colSpan={3}>
+                            No hay registros de pagos al contado
+                          </Td>
+                        </Tr>
+                      )) ||
+                      (title?.includes('Pago por Devolución') && (
+                        <Tr>
+                          <Td colSpan={3}>No hay registros de devoluciones</Td>
+                        </Tr>
+                      )))}
                 </Tbody>
               </Table>
             </Box>

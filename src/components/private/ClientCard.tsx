@@ -104,11 +104,14 @@ const ClientCard = ({ client }: { client: ClientPropsBD }) => {
           <Text display="flex" justifyContent="flex-end">
             {client.email}
           </Text>
-          {isSm && pathname === '/app/clients' && more && addressesSection()}
+          {isSm &&
+            pathname.includes('/app/clients') &&
+            more &&
+            addressesSection()}
           {!isSm && addressesSection()}
         </CardBody>
 
-        {pathname === '/app/clients' && (
+        {pathname.includes('/app/clients') && (
           <CardFooter pt="10px" display="flex" justifyContent="flex-end">
             {isSm && (
               <Button

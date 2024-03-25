@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Flex,
+  Heading,
+  Text,
+} from '@chakra-ui/react';
 
 import usePrivate from '../../hooks/private/usePrivate';
 import useCustomTitle from '../../hooks/public/useCustomTitle';
@@ -37,12 +47,38 @@ const Clients = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpenSearchModal, currentPage]);
 
-  if (!clients)
+  if (clients.length === 0) {
     return (
-      <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
-        <Text>Aun no se ha agregado clientes</Text>
-      </Box>
+      <Center minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
+        <Card variant="elevated">
+          <CardHeader pb="10px">
+            <Heading textAlign="center" size="md">
+              No hay clientes aquí todavía.
+            </Heading>
+          </CardHeader>
+          <CardBody pt="10px">
+            <Text fontSize="lg" textAlign="center">
+              ¿Por qué no empiezas a agregar alguno?
+            </Text>
+
+            <Button
+              leftIcon={<ImUserPlus size="24px" />}
+              onClick={() => {
+                handleResetClient();
+                onOpenClientModal();
+              }}
+              {...addStyle}
+              mt="20px"
+              width="100%"
+            >
+              <Text>Agregar Cliente</Text>
+            </Button>
+          </CardBody>
+        </Card>
+        <ClientModal />
+      </Center>
     );
+  }
 
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>

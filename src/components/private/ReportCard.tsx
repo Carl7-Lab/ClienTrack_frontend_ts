@@ -37,13 +37,14 @@ const ReportCard = () => {
       my="10px"
       mx={{ base: '10px', md: '20px', lg: '1%' }}
       width={{ md: 'full', lg: '50%' }}
+      boxShadow="xs"
     >
       <CardHeader>
         <Heading size="md">Reporte</Heading>
       </CardHeader>
 
       <CardBody pt="0px">
-        <Table variant="simple" size="sm">
+        <Table variant="simple" size="sm" position="relative" right="9px">
           <Thead>
             <Tr>
               <Th colSpan={3}>

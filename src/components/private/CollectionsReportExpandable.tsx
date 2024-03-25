@@ -42,12 +42,12 @@ const CollectionsReportExpandable = ({
   return (
     <>
       <Tr
-        height="60px"
-        p="10px"
-        display="flex"
-        alignContent="space-between"
-        alignItems="center"
-        width="100%"
+      // height="60px"
+      // p="10px"
+      // display="flex"
+      // alignContent="space-between"
+      // alignItems="center"
+      // width="100%"
       >
         <Th width="33%" height="60px" display="flex" alignItems="center">
           <IconButton
@@ -58,19 +58,19 @@ const CollectionsReportExpandable = ({
           />
         </Th>
         <Th
-          width="33%"
+          // width="33%"
           fontSize="16px"
           height="60px"
-          display="flex"
+          // display="flex"
           alignItems="center"
         >
           <Text>Cobros</Text>
         </Th>
         <Th
-          width="33%"
+          // width="33%"
           fontSize="16px"
           height="60px"
-          display="flex"
+          // display="flex"
           alignItems="center"
         >
           ${report?.value?.toFixed(2)}

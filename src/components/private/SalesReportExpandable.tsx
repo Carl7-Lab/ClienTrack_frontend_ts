@@ -27,14 +27,19 @@ const SalesReportExpandable = ({
   return (
     <>
       <Tr
-        height="60px"
-        p="10px"
-        display="flex"
-        alignContent="space-between"
-        alignItems="center"
-        width="100%"
+      // height="60px"
+      // p="10px"
+      // display="flex"
+      // alignContent="space-between"
+      // alignItems="center"
+      // width="100%"
       >
-        <Th width="33%" height="60px" display="flex" alignItems="center">
+        <Th
+          // width="33%"
+          height="60px"
+          // display="flex"
+          alignItems="center"
+        >
           <IconButton
             icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
             onClick={handleToggle}
@@ -43,19 +48,19 @@ const SalesReportExpandable = ({
           />
         </Th>
         <Th
-          width="33%"
+          // width="33%"
           fontSize="16px"
           height="60px"
-          display="flex"
+          // display="flex"
           alignItems="center"
         >
           <Text>Ventas</Text>
         </Th>
         <Th
-          width="33%"
+          // width="33%"
           fontSize="16px"
           height="60px"
-          display="flex"
+          // display="flex"
           alignItems="center"
         >
           ${report?.value?.toFixed(2)}
@@ -64,7 +69,7 @@ const SalesReportExpandable = ({
       {isOpen && (
         <Tr backgroundColor="gray.100">
           <Td colSpan={3}>
-            <Box p="20px" width="97%" mx="auto">
+            <Box p="10px" width="90%">
               <Table variant="simple" size="sm">
                 <Tbody>
                   {report?.clientsDetails &&
@@ -82,6 +87,11 @@ const SalesReportExpandable = ({
                         <Td>${client.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
+                  {report?.clientsDetails?.length === 0 && (
+                    <Tr>
+                      <Td colSpan={3}>No hay ventas registradas</Td>
+                    </Tr>
+                  )}
                 </Tbody>
               </Table>
             </Box>
