@@ -11,7 +11,7 @@ import { colors } from '../../styles/colors';
 const AddressList = ({ client }: { client: ClientPropsBD }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const { onOpenAddressModal, handleAddress } = usePrivate();
-  const itemsPerPage = 2;
+  const itemsPerPage = 1;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

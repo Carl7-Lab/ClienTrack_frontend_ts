@@ -62,7 +62,7 @@ const ClientCard = ({ client }: { client: ClientPropsBD }) => {
         </Button>
       </Heading>
 
-      <Box height="100px">
+      <Box height="100px" mt="20px">
         <AddressList client={client} />
       </Box>
     </Box>
@@ -97,7 +97,7 @@ const ClientCard = ({ client }: { client: ClientPropsBD }) => {
             }}
           />
         </CardHeader>
-        <CardBody py="10px" mb="30px">
+        <CardBody py="10px" mb="10px">
           <Text display="flex" justifyContent="flex-end">
             {client.cell}
           </Text>
@@ -125,43 +125,47 @@ const ClientCard = ({ client }: { client: ClientPropsBD }) => {
               </Button>
             )}
 
-            <Button
-              leftIcon={<BiSolidPurchaseTag size="24px" />}
-              onClick={() => {
-                onOpenSaleModal();
-                handleClient(client);
-              }}
-              mx="3px"
-              width={{ sm: '42px' }}
-              {...addStyle}
-              pl="10px"
-            >
-              {/* <Text display={{ base: 'none', md: 'none' }}>Agregar Venta</Text> */}
-            </Button>
+            {pathname === '/app/clients' && (
+              <>
+                <Button
+                  leftIcon={<BiSolidPurchaseTag size="24px" />}
+                  onClick={() => {
+                    onOpenSaleModal();
+                    handleClient(client);
+                  }}
+                  mx="3px"
+                  width={{ sm: '42px' }}
+                  {...addStyle}
+                  pl="10px"
+                >
+                  {/* <Text display={{ base: 'none', md: 'none' }}>Agregar Venta</Text> */}
+                </Button>
 
-            <Button
-              leftIcon={<MdPayments size="24px" />}
-              onClick={() => {
-                onOpenCollectionModal();
-                handleClient(client);
-              }}
-              {...addStyle}
-              mx="3px"
-              width={{ sm: '42px' }}
-              pl="10px"
-            >
-              {/* <Text display={{ base: 'none', md: 'none' }}>Agregar Cobro</Text> */}
-            </Button>
+                <Button
+                  leftIcon={<MdPayments size="24px" />}
+                  onClick={() => {
+                    onOpenCollectionModal();
+                    handleClient(client);
+                  }}
+                  {...addStyle}
+                  mx="3px"
+                  width={{ sm: '42px' }}
+                  pl="10px"
+                >
+                  {/* <Text display={{ base: 'none', md: 'none' }}>Agregar Cobro</Text> */}
+                </Button>
 
-            <Button
-              as={Link}
-              to={`${client._id}`}
-              {...addStyle}
-              mx="5px"
-              px="20px"
-            >
-              Ver Detalles
-            </Button>
+                <Button
+                  as={Link}
+                  to={`${client._id}`}
+                  {...addStyle}
+                  mx="5px"
+                  px="20px"
+                >
+                  Ver Detalles
+                </Button>
+              </>
+            )}
           </CardFooter>
         )}
       </Card>
