@@ -17,6 +17,7 @@ export interface PrivateProviderProps {
 export type PrivateContextProps = {
   pathname: string;
   totalClients: number;
+  resetVar: () => void;
 
   firstMoveDate: string;
   report: ReportProps;

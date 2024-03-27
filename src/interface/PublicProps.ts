@@ -14,4 +14,5 @@ export type PublicContextProps = {
   auth: AuthProps;
   isLoading: boolean;
   setAuth: Dispatch<React.SetStateAction<object>>;
+  resetAuth: () => void;
 };

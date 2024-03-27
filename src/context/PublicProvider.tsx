@@ -44,8 +44,12 @@ export const PublicProvider = ({ children }: PublicProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const resetAuth = () => {
+    setAuth({});
+  };
+
   return (
-    <PublicContext.Provider value={{ auth, isLoading, setAuth }}>
+    <PublicContext.Provider value={{ auth, isLoading, setAuth, resetAuth }}>
       {children}
     </PublicContext.Provider>
   );

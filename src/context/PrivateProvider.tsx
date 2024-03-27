@@ -520,6 +520,18 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     }
   };
 
+  const resetVar = () => {
+    setClients([]);
+    setClient({});
+    setTotalClients(0);
+    setAddress({});
+    setReport({});
+    setRowsKardex([]);
+    setFirstMoveDate('');
+    setTotalRows(0);
+    setDebtors([]);
+  };
+
   return (
     <PrivateContext.Provider
       value={{
@@ -527,6 +539,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         totalClients,
         report,
         debtors,
+        resetVar,
 
         totalRows,
         rowsKardex,

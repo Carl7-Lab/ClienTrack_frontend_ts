@@ -14,6 +14,7 @@ import {
 import {
   Client,
   Clients,
+  Profile,
   // Home,
   Reports,
 } from './pages/private';
@@ -47,6 +48,7 @@ function App() {
                 {/* <Route path="home" element={<Home />} /> */}
                 <Route path="reports" element={<Reports />} />
                 <Route path="clients/:id" element={<Client />} />
+                <Route path="user-profile" element={<Profile />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Routes>
