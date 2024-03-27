@@ -30,7 +30,7 @@ const ClientCard = ({
   loading,
 }: {
   client: ClientPropsBD;
-  loading: boolean;
+  loading?: boolean;
 }) => {
   const {
     onOpenClientModal,
