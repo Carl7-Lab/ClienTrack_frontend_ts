@@ -5,6 +5,7 @@ import {
   CardBody,
   CardHeader,
   Heading,
+  Skeleton,
   Table,
   Tbody,
   Th,
@@ -25,7 +26,7 @@ const ReportCard = () => {
   const [startDate, setStartDate] = useState<string>(formatDate(startOfMonth));
   const [endDate, setEndDate] = useState<string>(formatDate(new Date()));
 
-  const { report, getReport } = usePrivate();
+  const { report, loadingReport, getReport } = usePrivate();
 
   useEffect(() => {
     getReport({ startDate: startDate, endDate: endDate });
@@ -53,13 +54,31 @@ const ReportCard = () => {
                   endDate={endDate}
                   setStartDate={setStartDate}
                   setEndDate={setEndDate}
+                  loading={loadingReport}
                 />
               </Th>
             </Tr>
           </Thead>
           <Tbody>
-            <SalesReportExpandable report={report.purchases} />
-            <CollectionsReportExpandable report={report.payments} />
+            {loadingReport ? (
+              <>
+                <Tr>
+                  <Th colSpan={3}>
+                    <Skeleton height="60px" />
+                  </Th>
+                </Tr>
+                <Tr>
+                  <Th colSpan={3}>
+                    <Skeleton height="60px" />
+                  </Th>
+                </Tr>
+              </>
+            ) : (
+              <>
+                <SalesReportExpandable report={report.purchases} />
+                <CollectionsReportExpandable report={report.payments} />
+              </>
+            )}
           </Tbody>
         </Table>
       </CardBody>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Button, Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Skeleton, Text, VStack } from '@chakra-ui/react';
 
 import usePrivate from '../../hooks/private/usePrivate';
 import useCustomTitle from '../../hooks/public/useCustomTitle';
@@ -22,10 +22,11 @@ const Client = () => {
 
   const {
     client,
+    firstMoveDate,
+    loadingClient,
     getClient,
     onOpenSaleModal,
     onOpenCollectionModal,
-    firstMoveDate,
   } = usePrivate();
 
   useEffect(() => {
@@ -42,36 +43,40 @@ const Client = () => {
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
       <Box mt="20px" mx={{ base: '10px', sm: '20px', md: '30px' }}>
-        <ClientCard client={client} />
+        <ClientCard client={client} loading={loadingClient} />
       </Box>
 
       <Box mx={{ base: '10px', sm: '20px', md: '30px', lg: '10%' }}>
         <Flex my="20px" justifyContent="flex-end">
-          <Button
-            leftIcon={<BiSolidPurchaseTag size="24px" />}
-            onClick={() => {
-              onOpenSaleModal();
-            }}
-            mx="3px"
-            width={{ sm: '42px', md: '180px' }}
-            {...addStyle}
-            pl="10px"
-          >
-            <Text display={{ base: 'none', md: 'block' }}>Agregar Venta</Text>
-          </Button>
+          <Skeleton isLoaded={!loadingClient} mx="3px">
+            <Button
+              leftIcon={<BiSolidPurchaseTag size="24px" />}
+              onClick={() => {
+                onOpenSaleModal();
+              }}
+              mx="3px"
+              width={{ sm: '42px', md: '180px' }}
+              {...addStyle}
+              pl="10px"
+            >
+              <Text display={{ base: 'none', md: 'block' }}>Agregar Venta</Text>
+            </Button>
+          </Skeleton>
 
-          <Button
-            leftIcon={<MdPayments size="24px" />}
-            onClick={() => {
-              onOpenCollectionModal();
-            }}
-            {...addStyle}
-            mx="3px"
-            width={{ sm: '42px', md: '180px' }}
-            pl="10px"
-          >
-            <Text display={{ base: 'none', md: 'block' }}>Agregar Cobro</Text>
-          </Button>
+          <Skeleton isLoaded={!loadingClient} mx="3px">
+            <Button
+              leftIcon={<MdPayments size="24px" />}
+              onClick={() => {
+                onOpenCollectionModal();
+              }}
+              {...addStyle}
+              mx="3px"
+              width={{ sm: '42px', md: '180px' }}
+              pl="10px"
+            >
+              <Text display={{ base: 'none', md: 'block' }}>Agregar Cobro</Text>
+            </Button>
+          </Skeleton>
 
           <SaleModal />
           <CollectionModal />

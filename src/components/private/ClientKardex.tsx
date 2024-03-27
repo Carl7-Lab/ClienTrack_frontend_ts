@@ -7,6 +7,7 @@ import {
   CardHeader,
   Divider,
   Heading,
+  Skeleton,
   Table,
   Tbody,
   Th,
@@ -16,7 +17,8 @@ import {
 import { DateRangePicker, Pagination, RowKardexExpandable } from '.';
 
 const ClientKardex = ({ id }: { id: string }) => {
-  const { rowsKardex, firstMoveDate, totalRows, getKardex } = usePrivate();
+  const { rowsKardex, firstMoveDate, totalRows, loadingKardex, getKardex } =
+    usePrivate();
   const [currentPage, setCurrentPage] = useState(1);
   //numero de movimientos por pagina
   const limit = 6;
@@ -49,6 +51,7 @@ const ClientKardex = ({ id }: { id: string }) => {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
+          loading={loadingKardex}
         />
 
         <Pagination
@@ -56,6 +59,7 @@ const ClientKardex = ({ id }: { id: string }) => {
           total={totalRows}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          loading={loadingKardex}
         />
       </CardHeader>
 
@@ -64,7 +68,13 @@ const ClientKardex = ({ id }: { id: string }) => {
       <CardBody pt="0px" width="100%" overflow="auto">
         <Table variant="simple" size="sm">
           <Thead>
-            {totalRows === 0 ? (
+            {loadingKardex ? (
+              <Tr>
+                <Th colSpan={6}>
+                  <Skeleton height="45px" />
+                </Th>
+              </Tr>
+            ) : totalRows === 0 ? (
               <Tr>
                 <Th colSpan={6} fontSize="16px">
                   No Hay Registros de Movimientos
@@ -82,13 +92,14 @@ const ClientKardex = ({ id }: { id: string }) => {
             )}
           </Thead>
           <Tbody>
-            {rowsKardex.map((rowKardex, index) => (
-              <RowKardexExpandable
-                key={index}
-                rowKardex={rowKardex}
-                isFirst={index === 0}
-              />
-            ))}
+            {!loadingKardex &&
+              rowsKardex.map((rowKardex, index) => (
+                <RowKardexExpandable
+                  key={index}
+                  rowKardex={rowKardex}
+                  isFirst={index === 0}
+                />
+              ))}
           </Tbody>
         </Table>
       </CardBody>

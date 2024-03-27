@@ -8,6 +8,7 @@ import {
   Center,
   Flex,
   Heading,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 
@@ -31,7 +32,8 @@ const Clients = () => {
   const limit = 9;
 
   const {
-    clients,
+    loadingClients,
+
     isOpenSearchModal,
     totalClients,
 
@@ -47,7 +49,21 @@ const Clients = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpenSearchModal, currentPage]);
 
-  if (clients.length === 0) {
+  if (loadingClients) {
+    return (
+      <Flex bg="gray.100" align="center" justify="center" minH="100vh">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
+  }
+
+  if (totalClients === 0 && !loadingClients) {
     return (
       <Center minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
         <Card variant="elevated">

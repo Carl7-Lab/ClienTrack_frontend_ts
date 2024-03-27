@@ -3,6 +3,7 @@ import {
   CardBody,
   CardHeader,
   Heading,
+  Skeleton,
   Table,
   Tbody,
   Th,
@@ -14,7 +15,7 @@ import { useEffect } from 'react';
 import { DebtorExpandable } from '.';
 
 const DebtorCard = () => {
-  const { getDebtors, debtors } = usePrivate();
+  const { getDebtors, debtors, loadingDebtors } = usePrivate();
 
   useEffect(() => {
     getDebtors();
@@ -52,9 +53,17 @@ const DebtorCard = () => {
           </Thead>
 
           <Tbody>
-            {debtors.map((debtor, index) => (
-              <DebtorExpandable key={index} debtor={debtor} />
-            ))}
+            {loadingDebtors ? (
+              <Tr>
+                <Th colSpan={3}>
+                  <Skeleton height="60px" />
+                </Th>
+              </Tr>
+            ) : (
+              debtors.map((debtor, index) => (
+                <DebtorExpandable key={index} debtor={debtor} />
+              ))
+            )}
           </Tbody>
         </Table>
       </CardBody>

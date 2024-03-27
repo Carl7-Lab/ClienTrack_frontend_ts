@@ -8,6 +8,7 @@ import {
   CardHeader,
   Flex,
   Heading,
+  Skeleton,
   Text,
   // useBreakpointValue,
   useMediaQuery,
@@ -24,7 +25,13 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { MdPayments } from 'react-icons/md';
 import { CollectionModal, SaleModal } from '.';
 
-const ClientCard = ({ client }: { client: ClientPropsBD }) => {
+const ClientCard = ({
+  client,
+  loading,
+}: {
+  client: ClientPropsBD;
+  loading: boolean;
+}) => {
   const {
     onOpenClientModal,
     handleClient,
@@ -69,6 +76,32 @@ const ClientCard = ({ client }: { client: ClientPropsBD }) => {
   );
 
   const [isSm] = useMediaQuery('(max-width: 48em)');
+
+  if (loading) {
+    return (
+      <Flex align="center" justify="center">
+        <Card variant="elevated" width="430px">
+          <CardHeader pb="5px">
+            <Skeleton height="40px" />
+          </CardHeader>
+          <CardBody py="5px" mb="10px">
+            <Flex flexDirection="column" alignItems="flex-end">
+              <Skeleton height="25px" width="50%" mb="1px" />
+              <Skeleton height="25px" width="50%" mt="1px" />
+            </Flex>
+            <Skeleton height="30px" width="60%" mt="5px" />
+            {!isSm ? (
+              <Skeleton height="100px" width="100%" mt="5px" />
+            ) : (
+              <Flex justifyContent="flex-end">
+                <Skeleton height="40px" width="160px" mt="5px" />
+              </Flex>
+            )}
+          </CardBody>
+        </Card>
+      </Flex>
+    );
+  }
 
   return (
     <Flex align="center" justify="center">

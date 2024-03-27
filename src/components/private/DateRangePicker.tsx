@@ -1,13 +1,15 @@
-import { Input, Text, HStack } from '@chakra-ui/react';
+import { Input, Text, HStack, Skeleton } from '@chakra-ui/react';
 
 const DateRangePicker = ({
   startDate,
   endDate,
+  loading,
   setStartDate,
   setEndDate,
 }: {
   startDate: string;
   endDate: string;
+  loading?: boolean;
   setStartDate: React.Dispatch<React.SetStateAction<string>>;
   setEndDate: React.Dispatch<React.SetStateAction<string>>;
 }) => {
@@ -34,23 +36,23 @@ const DateRangePicker = ({
 
   return (
     <HStack spacing={4}>
-      <div>
+      <Skeleton isLoaded={!loading}>
         <Text>Inicio:</Text>
         <Input
           type="date"
           value={startDate}
           onChange={(e) => handleDateChange(e, true)}
         />
-      </div>
+      </Skeleton>
 
-      <div>
+      <Skeleton isLoaded={!loading}>
         <Text>Fin:</Text>
         <Input
           type="date"
           value={endDate}
           onChange={(e) => handleDateChange(e, false)}
         />
-      </div>
+      </Skeleton>
     </HStack>
   );
 };

@@ -42,6 +42,12 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   const [totalRows, setTotalRows] = useState(0);
   const [debtors, setDebtors] = useState<DebtorProps[]>([]);
 
+  const [loadingClients, setLoadingClients] = useState(true);
+  const [loadingReport, setLoadingReport] = useState(true);
+  const [loadingDebtors, setLoadingDebtors] = useState(true);
+  const [loadingClient, setLoadingClient] = useState(true);
+  const [loadingKardex, setLoadingKardex] = useState(true);
+
   const { pathname } = useLocation();
   const toast = useToast();
   const navigate = useNavigate();
@@ -88,6 +94,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
 
   const getClients = async ({ searchValue, limit, page }: GetClientProps) => {
     try {
+      setLoadingClients(true);
       const token = localStorage.getItem('token');
       if (!token) return;
       const config = {
@@ -110,20 +117,21 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       );
       setClients(data.data.clients);
       setTotalClients(data.data.pagination.total);
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      setClients([]);
       toast({
         title: error.response.data.message,
         status: 'error',
         duration: 8000,
         isClosable: true,
       });
-      setClients([]);
     }
+    setLoadingClients(false);
   };
 
   const getClient = async (idClient: string) => {
+    setLoadingClient(true);
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -147,6 +155,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       setClient({});
       navigate('/app/clients');
     }
+    setLoadingClient(false);
   };
 
   const getReport = async ({
@@ -156,6 +165,8 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     startDate?: string;
     endDate?: string;
   }) => {
+    setLoadingReport(true);
+
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -173,6 +184,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       setReport(data.data);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      setReport({});
       toast({
         title: error.response.data.message,
         status: 'error',
@@ -180,6 +192,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         isClosable: true,
       });
     }
+    setLoadingReport(false);
   };
 
   const getKardex = async ({
@@ -189,6 +202,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     startDate,
     endDate,
   }: GetKardexProps) => {
+    setLoadingKardex(true);
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -213,17 +227,19 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       setRowsKardex(data.data.rowsKardex);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      setRowsKardex([]);
       toast({
         title: error.response.data.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
       });
-      setRowsKardex([]);
     }
+    setLoadingKardex(false);
   };
 
   const getDebtors = async () => {
+    setLoadingDebtors(true);
     const token = localStorage.getItem('token');
     if (!token) return;
     const config = {
@@ -239,6 +255,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       setDebtors(data.data.debtors);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      setDebtors([]);
       toast({
         title: error.response.data.message,
         status: 'error',
@@ -246,6 +263,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         isClosable: true,
       });
     }
+    setLoadingDebtors(false);
   };
 
   const handleClient = (values: ClientPropsBD) => {
@@ -535,6 +553,12 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   return (
     <PrivateContext.Provider
       value={{
+        loadingClients,
+        loadingReport,
+        loadingDebtors,
+        loadingClient,
+        loadingKardex,
+
         pathname,
         totalClients,
         report,

@@ -15,6 +15,12 @@ export interface PrivateProviderProps {
 }
 
 export type PrivateContextProps = {
+  loadingClients: boolean;
+  loadingReport: boolean;
+  loadingDebtors: boolean;
+  loadingClient: boolean;
+  loadingKardex: boolean;
+
   pathname: string;
   totalClients: number;
   resetVar: () => void;

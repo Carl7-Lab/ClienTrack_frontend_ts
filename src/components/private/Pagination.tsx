@@ -1,4 +1,4 @@
-import { Button, Flex, Box, IconButton } from '@chakra-ui/react';
+import { Button, Flex, Box, IconButton, Skeleton } from '@chakra-ui/react';
 import { colors } from '../../styles/colors';
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx';
 import { addStyle } from '../authFormik/ButtonCustom';
@@ -7,6 +7,7 @@ interface PageProps {
   limit: number;
   total: number;
   currentPage: number;
+  loading?: boolean;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -14,6 +15,7 @@ const Pagination = ({
   currentPage,
   limit,
   total,
+  loading,
   setCurrentPage,
 }: PageProps) => {
   const handlePrevPage = () => {
@@ -58,7 +60,7 @@ const Pagination = ({
   };
 
   return (
-    <Box my="5px">
+    <Skeleton isLoaded={!loading} my="5px">
       <Flex mt={4} justify="center" align="center">
         <IconButton
           aria-label={''}
@@ -103,7 +105,7 @@ const Pagination = ({
           {...addStyle}
         />
       </Flex>
-    </Box>
+    </Skeleton>
   );
 };
 
