@@ -8,10 +8,10 @@ const ClientList = () => {
 
   return (
     <SimpleGrid
-      spacing="20px"
+      spacing="5px"
       mt="20px"
-      mx="10px"
-      minChildWidth={{ base: '400px', sm: '400px', md: '450px', lg: '450px' }}
+      mx="5px"
+      minChildWidth={{ base: '350px', sm: '350px', md: '350px', lg: '350px' }}
     >
       {clients.map((client) => (
         <ClientCard key={client._id} client={client} />

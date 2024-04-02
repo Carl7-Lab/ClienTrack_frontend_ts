@@ -37,7 +37,7 @@ const UserLayout = () => {
         <Box
           justifyContent="center"
           width="100%"
-          mt={{ base: '70px', sm: '85px', md: '156px' }}
+          mt={{ base: '70px', sm: '85px', md: '90px' }}
           mb={{ base: '94px', sm: 0 }}
         >
           <VStack spacing={0} align="stretch">

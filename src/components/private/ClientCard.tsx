@@ -78,8 +78,8 @@ const ClientCard = ({
 
   if (loading) {
     return (
-      <Flex align="center" justify="center">
-        <Card variant="elevated" width="430px">
+      <Flex align="center" justify="center" mt="10px">
+        <Card variant="elevated" width="300px">
           <CardHeader pb="5px">
             <Skeleton height="40px" />
           </CardHeader>
@@ -103,8 +103,8 @@ const ClientCard = ({
   }
 
   return (
-    <Flex align="center" justify="center">
-      <Card variant="elevated" width="430px">
+    <Flex align="center" justify="center" mt="10px">
+      <Card variant="elevated" width="360px" minHeight="220px">
         <CardHeader pb="10px" display="flex">
           <Heading
             size="md"
@@ -136,20 +136,17 @@ const ClientCard = ({
           <Text display="flex" justifyContent="flex-end">
             {client.email}
           </Text>
-          {isSm &&
-            pathname.includes('/app/clients') &&
-            more &&
-            addressesSection()}
-          {!isSm && addressesSection()}
+          {pathname.includes('/app/clients') && more && addressesSection()}
         </CardBody>
 
         {pathname.includes('/app/clients') && (
           <CardFooter pt="10px" display="flex" justifyContent="flex-end">
-            {isSm && (
+            {pathname.includes('clients/') && (
               <Button
                 onClick={handleMore}
                 {...addStyle}
                 px="10px"
+                fontSize="sm"
                 width="160px"
                 leftIcon={more ? <ChevronUpIcon /> : <ChevronDownIcon />}
               >
@@ -193,6 +190,7 @@ const ClientCard = ({
                   {...addStyle}
                   mx="5px"
                   px="20px"
+                  fontSize="sm"
                 >
                   Ver Detalles
                 </Button>
