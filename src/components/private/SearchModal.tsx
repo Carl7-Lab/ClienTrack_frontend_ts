@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Card,
   CardHeader,
+  Flex,
   Input,
   InputGroup,
   InputRightElement,
@@ -12,6 +13,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 
@@ -24,8 +26,13 @@ import { colors } from '../../styles/colors';
 
 const SearchModal = ({ searchValue, setSearchValue }: SearchProps) => {
   const initialRef = useRef(null);
-  const { clients, isOpenSearchModal, onCloseSearchModal, getClients } =
-    usePrivate();
+  const {
+    clients,
+    isOpenSearchModal,
+    loadingClients,
+    onCloseSearchModal,
+    getClients,
+  } = usePrivate();
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter') {
@@ -67,33 +74,45 @@ const SearchModal = ({ searchValue, setSearchValue }: SearchProps) => {
             </InputRightElement>
           </InputGroup>
 
-          {clients.map((client) => (
-            <Card
-              key={client._id}
-              my="4px"
-              _hover={{ backgroundColor: 'gray.100' }}
-              _active={{ backgroundColor: 'gray.200' }}
-            >
-              <CardHeader
-                as={Link}
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                to={`${client._id}`}
-                onClick={() => {
-                  onCloseSearchModal();
-                }}
+          {loadingClients ? (
+            <Flex align="center" justify="center" minH="60vh">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Flex>
+          ) : (
+            clients.slice(0, 5).map((client) => (
+              <Card
+                key={client._id}
+                my="4px"
+                _hover={{ backgroundColor: 'gray.100' }}
+                _active={{ backgroundColor: 'gray.200' }}
               >
-                <Text>
-                  {client.name + ' ' + client.lastName}
-                  <Text as="span" display={client.alias ? 'bolk' : 'none'}>
-                    {' (' + client.alias + ') '}
+                <CardHeader
+                  as={Link}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  to={`${client._id}`}
+                  onClick={() => {
+                    onCloseSearchModal();
+                  }}
+                >
+                  <Text>
+                    {client.name + ' ' + client.lastName}
+                    <Text as="span" display={client.alias ? 'bolk' : 'none'}>
+                      {' (' + client.alias + ') '}
+                    </Text>
                   </Text>
-                </Text>
-                <MdDoubleArrow />
-              </CardHeader>
-            </Card>
-          ))}
+                  <MdDoubleArrow />
+                </CardHeader>
+              </Card>
+            ))
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>

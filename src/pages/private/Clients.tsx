@@ -52,20 +52,6 @@ const Clients = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpenSearchModal, currentPage, clients.length]);
 
-  if (loadingClients) {
-    return (
-      <Flex bg="gray.100" align="center" justify="center" minH="100vh">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      </Flex>
-    );
-  }
-
   if (totalClients === 0 && !loadingClients) {
     return (
       <Center minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
@@ -130,7 +116,19 @@ const Clients = () => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
-      <ClientList />
+      {loadingClients ? (
+        <Flex align="center" justify="center" minH="40vh">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Flex>
+      ) : (
+        <ClientList />
+      )}
       <Pagination
         limit={limit}
         total={totalClients}

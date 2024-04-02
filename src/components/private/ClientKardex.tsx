@@ -17,8 +17,14 @@ import {
 import { DateRangePicker, Pagination, RowKardexExpandable } from '.';
 
 const ClientKardex = ({ id }: { id: string }) => {
-  const { rowsKardex, firstMoveDate, totalRows, loadingKardex, getKardex } =
-    usePrivate();
+  const {
+    client,
+    rowsKardex,
+    firstMoveDate,
+    totalRows,
+    loadingKardex,
+    getKardex,
+  } = usePrivate();
   const [currentPage, setCurrentPage] = useState(1);
   //numero de movimientos por pagina
   const limit = 6;
@@ -43,7 +49,7 @@ const ClientKardex = ({ id }: { id: string }) => {
       mx={{ base: '10px', md: '20px', lg: '1%' }}
       width={{ base: '100%', md: 'full', lg: '80%' }}
     >
-      <CardHeader>
+      <CardHeader pb="10px">
         <Heading size="md">Kardex del Cliente</Heading>
 
         <DateRangePicker
@@ -61,6 +67,10 @@ const ClientKardex = ({ id }: { id: string }) => {
           setCurrentPage={setCurrentPage}
           loading={loadingKardex}
         />
+
+        <Heading size="md" mt="10px">
+          {client.name + ' ' + client.lastName}
+        </Heading>
       </CardHeader>
 
       <Divider orientation="horizontal" borderColor="gray.200" />

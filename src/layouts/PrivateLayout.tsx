@@ -33,21 +33,21 @@ const UserLayout = () => {
 
   return (
     <>
-      <Flex bg={colors.one_light} minH="100vh">
+      <Flex bg={colors.one_light} minH="100vh" flexDirection="column">
         <Box
           justifyContent="center"
           width="100%"
           mt={{ base: '70px', sm: '85px', md: '90px' }}
           mb={{ base: '94px', sm: 0 }}
+          flex="1"
         >
           <VStack spacing={0} align="stretch">
             <Header page={page} />
 
             {_id ? <Outlet /> : <Navigate to="/" />}
-
-            <Footer />
           </VStack>
         </Box>
+        <Footer />
       </Flex>
     </>
   );
