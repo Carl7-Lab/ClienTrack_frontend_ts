@@ -20,6 +20,8 @@ import {
   ClientList,
   AddressModal,
   Pagination,
+  SaleModal,
+  CollectionModal,
 } from '../../components/private';
 
 import { addStyle } from '../../components/authFormik/ButtonCustom';
@@ -136,6 +138,8 @@ const Clients = () => {
         setCurrentPage={setCurrentPage}
       />
 
+      <SaleModal />
+      <CollectionModal />
       <AddressModal />
       <ClientModal />
     </Box>

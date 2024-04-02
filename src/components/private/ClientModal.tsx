@@ -15,8 +15,11 @@ import { ButtonCustom } from '../authFormik';
 import { InputModal } from '.';
 
 import { colors } from '../../styles/colors';
+import { useState } from 'react';
 
 const ClientModal = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     pathname,
     client,
@@ -42,29 +45,30 @@ const ClientModal = () => {
         <ModalOverlay />
         <ModalContent mx="10px">
           <ModalHeader textColor={colors.one} fontWeight="bold">
-            {client._id ? (
-              <Text>Editar Cliente</Text>
-            ) : (
-              <Text>Agregar Cliente</Text>
-            )}
+            <Text>{client._id ? 'Editar Cliente' : 'Agregar Cliente'}</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Formik
               initialValues={initialClient}
-              onSubmit={onSubmitClientModal}
               validationSchema={validationClientModal}
+              onSubmit={async (values) => {
+                if (!isSubmitting) {
+                  setIsSubmitting(true);
+                  await onSubmitClientModal(values);
+                  setIsSubmitting(false);
+                }
+              }}
             >
               <Form>
                 <VStack spacing={4} align="flex-start">
                   {inputsClient.map((input) => (
                     <InputModal key={input.name} {...input} />
                   ))}
-                  {client._id ? (
-                    <ButtonCustom text="Editar Cliente" />
-                  ) : (
-                    <ButtonCustom text="Agregar Cliente" />
-                  )}
+                  <ButtonCustom
+                    text={client._id ? 'Editar Cliente' : 'Agregar Cliente'}
+                    isSubmitting={isSubmitting}
+                  />
                 </VStack>
               </Form>
             </Formik>

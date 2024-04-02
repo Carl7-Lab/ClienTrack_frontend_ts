@@ -15,8 +15,11 @@ import { InputModal } from '.';
 import { ButtonCustom } from '../authFormik';
 
 import { colors } from '../../styles/colors';
+import { useState } from 'react';
 
 const CollectionModal = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     isOpenCollectionModal,
     inputsCollection,
@@ -43,8 +46,15 @@ const CollectionModal = () => {
         <ModalBody pb={6}>
           <Formik
             initialValues={initialCollection}
-            onSubmit={onSubmitCollectionModal}
             validationSchema={validationCollectionModal}
+            // onSubmit={onSubmitCollectionModal}
+            onSubmit={async (values) => {
+              if (!isSubmitting) {
+                setIsSubmitting(true);
+                await onSubmitCollectionModal(values);
+                setIsSubmitting(false);
+              }
+            }}
           >
             <Form>
               <VStack spacing={4} align="flex-start">
@@ -60,7 +70,10 @@ const CollectionModal = () => {
                   isReq={true}
                 />
 
-                <ButtonCustom text="Agregar Cobro" />
+                <ButtonCustom
+                  text="Agregar Cobro"
+                  isSubmitting={isSubmitting}
+                />
               </VStack>
             </Form>
           </Formik>

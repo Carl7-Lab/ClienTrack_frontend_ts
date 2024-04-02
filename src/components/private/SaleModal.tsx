@@ -22,8 +22,11 @@ import { ButtonCustom } from '../authFormik';
 import { addStyle } from '../authFormik/ButtonCustom';
 import { TiDelete } from 'react-icons/ti';
 import { colors } from '../../styles/colors';
+import { useState } from 'react';
 
 const SaleModal = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     initialSale,
     isOpenSaleModal,
@@ -54,7 +57,13 @@ const SaleModal = () => {
             <Formik
               initialValues={initialSale}
               validationSchema={validationSaleModal}
-              onSubmit={onSubmitSaleModal}
+              onSubmit={async (values) => {
+                if (!isSubmitting) {
+                  setIsSubmitting(true);
+                  await onSubmitSaleModal(values);
+                  setIsSubmitting(false);
+                }
+              }}
             >
               {({ values }) => (
                 <Form>
@@ -169,7 +178,11 @@ const SaleModal = () => {
                     isReq={true}
                   />
 
-                  <ButtonCustom text="Agregar Venta" mt="30px" />
+                  <ButtonCustom
+                    text="Agregar Venta"
+                    mt="30px"
+                    isSubmitting={isSubmitting}
+                  />
                 </Form>
               )}
             </Formik>

@@ -8,7 +8,7 @@ const ClientList = () => {
 
   return (
     <SimpleGrid
-      spacing="5px"
+      spacing="20px"
       mt="20px"
       mx="10px"
       minChildWidth={{ base: '400px', sm: '400px', md: '450px', lg: '450px' }}

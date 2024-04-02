@@ -15,8 +15,11 @@ import usePrivate from '../../hooks/private/usePrivate';
 import ButtonCustom from '../authFormik/ButtonCustom';
 
 import { colors } from '../../styles/colors';
+import { useState } from 'react';
 
 const AddressModal = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     pathname,
     address,
@@ -42,30 +45,34 @@ const AddressModal = () => {
         <ModalOverlay />
         <ModalContent mx="10px">
           <ModalHeader textColor={colors.one} fontWeight="bold">
-            {address._id ? (
-              <Text>Editar Dirección</Text>
-            ) : (
-              <Text>Agregar Dirección</Text>
-            )}
+            <Text>
+              {address._id ? 'Editar Dirección' : 'Agregar Dirección'}
+            </Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Formik
               initialValues={initialAddress}
-              onSubmit={onSubmitAddressModal}
               validationSchema={validationAdressModal}
+              onSubmit={async (values) => {
+                if (!isSubmitting) {
+                  setIsSubmitting(true);
+                  await onSubmitAddressModal(values);
+                  setIsSubmitting(false);
+                }
+              }}
             >
               <Form>
                 <VStack spacing={4} align="flex-start">
                   {inputsAddress.map((input) => (
                     <InputModal key={input.name} {...input} />
                   ))}
-
-                  {address._id ? (
-                    <ButtonCustom text="Editar Dirección" />
-                  ) : (
-                    <ButtonCustom text="Agregar Dirección" />
-                  )}
+                  <ButtonCustom
+                    text={
+                      address._id ? 'Editar Dirección' : 'Agregar Dirección'
+                    }
+                    isSubmitting={isSubmitting}
+                  />
                 </VStack>
               </Form>
             </Formik>

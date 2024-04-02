@@ -23,7 +23,6 @@ import { addStyle, updateStyle } from '../authFormik/ButtonCustom';
 import { useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { MdPayments } from 'react-icons/md';
-import { CollectionModal, SaleModal } from '.';
 
 const ClientCard = ({
   client,
@@ -202,8 +201,6 @@ const ClientCard = ({
           </CardFooter>
         )}
       </Card>
-      <SaleModal />
-      <CollectionModal />
     </Flex>
   );
 };
