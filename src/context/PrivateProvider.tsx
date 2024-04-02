@@ -359,6 +359,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
           config,
         );
         setClients([data.data.client, ...clients]);
+        setTotalClients((prevTotalClients) => prevTotalClients + 1);
 
         toast({
           title: 'Cliente Agregado',

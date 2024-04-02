@@ -18,15 +18,15 @@ const Header = ({ page }: { page: string }) => {
       right="0"
       zIndex="999"
       backgroundColor={colors.white}
-      px={{ base: '10px', sm: '20px', md: '30px' }}
-      py={{ base: '20px', sm: '20px', md: '30px' }}
+      px={{ base: '10px', sm: '10px', md: '10px' }}
+      py={{ base: '20px', sm: '20px', md: '20px' }}
       boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
     >
       <Flex justifyContent="space-between" alignItems="center">
         <Text>
           <Link color="teal.500" href="/app">
             <Image
-              height={{ base: '30px', sm: '40px', md: '70px' }}
+              height={{ base: '30px', sm: '40px' }}
               objectFit="fill"
               src={logo}
               alt="Logo"
@@ -49,7 +49,7 @@ const Header = ({ page }: { page: string }) => {
           justify="space-between"
           backgroundColor={colors.white}
           // width="25%"
-          fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }}
+          fontSize={{ base: 'xl', sm: 'xl', md: 'xl' }}
           display={{ base: 'none', md: 'flex' }}
         >
           {navigationLinks.map(({ path, label }) => (
@@ -64,7 +64,7 @@ const Header = ({ page }: { page: string }) => {
               // width="50%"
               textAlign="center"
               px="20px"
-              py={{ base: '20px', sm: '20px', md: '30px' }}
+              py={{ base: '10px', sm: '10px', md: '10px' }}
               flexDirection="column"
               alignItems="center"
             >

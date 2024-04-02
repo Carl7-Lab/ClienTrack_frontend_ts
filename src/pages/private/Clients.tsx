@@ -36,6 +36,7 @@ const Clients = () => {
 
     isOpenSearchModal,
     totalClients,
+    clients,
 
     getClients,
     handleResetClient,
@@ -47,7 +48,7 @@ const Clients = () => {
   useEffect(() => {
     getClients({ searchValue, limit: limit, page: currentPage });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpenSearchModal, currentPage]);
+  }, [isOpenSearchModal, currentPage, clients.length]);
 
   if (loadingClients) {
     return (
