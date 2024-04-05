@@ -6,7 +6,7 @@ import { colors } from '../../styles/colors';
 import useConfirmAccount from '../../hooks/public/useConfirmAccount';
 
 const ConfirmAccount = () => {
-  useCustomTitle('Confirmar Cuenta | ClienTrack');
+  useCustomTitle('Confirmar Cuenta | VenCo');
 
   const { id } = useParams();
   const { alert } = useConfirmAccount(id);

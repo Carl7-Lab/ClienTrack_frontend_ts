@@ -45,7 +45,7 @@ const Clients = () => {
     onOpenClientModal,
   } = usePrivate();
 
-  useCustomTitle('Clientes | ClienTrack');
+  useCustomTitle('Clientes | Venco');
 
   useEffect(() => {
     getClients({ searchValue, limit: limit, page: currentPage });

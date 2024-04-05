@@ -12,8 +12,9 @@ import {
 import { colors } from '../../styles/colors';
 
 const Register = () => {
-  useCustomTitle('Registro De Usuario | ClienTrack');
-  const { initialValues, validationSchema, onSubmit, alert } = useUserRegister();
+  useCustomTitle('Registro De Usuario | VenCo');
+  const { initialValues, validationSchema, onSubmit, alert } =
+    useUserRegister();
   const { msg, status } = alert;
 
   return (

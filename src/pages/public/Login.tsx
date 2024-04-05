@@ -12,7 +12,7 @@ import {
 import { colors } from '../../styles/colors';
 
 const Login = () => {
-  useCustomTitle('Iniciar Sesión | ClienTrack');
+  useCustomTitle('Iniciar Sesión | VenCo');
   const { alert, initialValues, validationSchema, onSubmit } = useLogin();
 
   const { msg, status } = alert;

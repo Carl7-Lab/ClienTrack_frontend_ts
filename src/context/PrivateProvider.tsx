@@ -202,7 +202,6 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         config,
       );
       setReportM(data.data.report);
-      console.log('report del data', data.data.report);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);

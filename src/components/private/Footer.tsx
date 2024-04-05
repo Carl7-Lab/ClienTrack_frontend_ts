@@ -69,7 +69,7 @@ const Footer = () => {
         boxShadow="0px -2px 4px rgba(0, 0, 0, 0.1)"
       >
         <Flex justify="center" align="center" direction="column">
-          <Text>&copy; 2024 ClienTrack. Todos los derechos reservados.</Text>
+          <Text>&copy; 2024 VenCo. Todos los derechos reservados.</Text>
           <Flex mt="2">
             <Link mx="2" href="terms">
               Términos de servicio

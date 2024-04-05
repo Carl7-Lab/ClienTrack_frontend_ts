@@ -4,7 +4,7 @@ import useCustomTitle from '../../hooks/public/useCustomTitle';
 import { DebtorCard, ReportCard } from '../../components/private';
 
 const Home = () => {
-  useCustomTitle('Inicio | ClienTrack');
+  useCustomTitle('Inicio | VenCo');
 
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>

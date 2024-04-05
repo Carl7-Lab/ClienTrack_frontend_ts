@@ -11,8 +11,9 @@ import { colors } from '../../styles/colors';
 import useForgetPassword from '../../hooks/public/useForgetPassword';
 
 const ForgetPassword = () => {
-  useCustomTitle('Olvidó Contraseña | ClienTrack');
-  const { alert, initialValues, validationSchema, onSubmit } = useForgetPassword();
+  useCustomTitle('Olvidó Contraseña | VenCo');
+  const { alert, initialValues, validationSchema, onSubmit } =
+    useForgetPassword();
   const { msg, status } = alert;
 
   return (

@@ -12,10 +12,16 @@ import {
 import { colors } from '../../styles/colors';
 
 const NewPassword = () => {
-  useCustomTitle('Nueva Contraseña | ClienTrack');
+  useCustomTitle('Nueva Contraseña | VenCo');
   const { token } = useParams();
-  const { alert, validToken, initialValues, validationSchema, changePassword, onSubmit } =
-    useNewPassword(token);
+  const {
+    alert,
+    validToken,
+    initialValues,
+    validationSchema,
+    changePassword,
+    onSubmit,
+  } = useNewPassword(token);
   const { msg, status } = alert;
 
   return (
@@ -56,7 +62,12 @@ const NewPassword = () => {
             </Formik>
           </Box>
           {changePassword && (
-            <Container mt="20px" mb="50px" textAlign="center" justifyContent="center">
+            <Container
+              mt="20px"
+              mb="50px"
+              textAlign="center"
+              justifyContent="center"
+            >
               <Link color="teal.500" href="/">
                 Inicia Sesión
               </Link>

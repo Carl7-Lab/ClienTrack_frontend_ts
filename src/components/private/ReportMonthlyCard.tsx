@@ -34,12 +34,8 @@ const ReportMonthlyCard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('reportM', reportM);
-
   const handleGetReport = () => {
     if (selectedOption !== '') {
-      console.log('id del reporte', selectedOption);
-      console.log(`obteniendo el reporte ${selectedOption}`);
       getReportM(selectedOption);
       setViewReport(true);
     }

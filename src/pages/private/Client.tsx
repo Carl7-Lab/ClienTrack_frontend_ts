@@ -37,7 +37,7 @@ const Client = () => {
   }, [id]);
 
   useCustomTitle(
-    `Infomación ${client.name + ' ' + client.lastName} ${client.alias ? ' (' + client.alias + ')' : ''} | ClienTrack`,
+    `Infomación ${client.name + ' ' + client.lastName} ${client.alias ? ' (' + client.alias + ')' : ''} | VenCo`,
   );
 
   return (

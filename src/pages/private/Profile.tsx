@@ -14,7 +14,7 @@ import { addStyle } from '../../components/authFormik/ButtonCustom';
 import usePrivate from '../../hooks/private/usePrivate';
 
 const Profile = () => {
-  useCustomTitle('Perfil de Usuario | ClienTrack');
+  useCustomTitle('Perfil de Usuario | Venco');
 
   const { auth, resetAuth } = usePublic();
   const { resetVar } = usePrivate();
