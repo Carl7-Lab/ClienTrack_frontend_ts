@@ -1,26 +1,26 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
 import {
-  Box,
+  ClientReportMProps,
+  TransactionMDetailProps,
+} from '../../interface/PrivateProps';
+import {
   IconButton,
-  Table,
-  Tbody,
-  Td,
-  Text,
   Th,
   Tr,
+  Text,
+  Td,
+  Box,
+  Table,
+  Tbody,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { addStyle } from '../authFormik/ButtonCustom';
-import {
-  ClientReportProps,
-  TransactionDetailProps,
-} from '../../interface/PrivateProps';
 
-const TransactionDetailExpandable = ({
+const TransactionMDetailExpandable = ({
   report,
   title,
 }: {
-  report?: TransactionDetailProps;
+  report?: TransactionMDetailProps;
   title?: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,7 @@ const TransactionDetailExpandable = ({
   };
 
   let totalValue: number | undefined;
-  let clientsList: ClientReportProps[] | undefined;
+  let clientsList: ClientReportMProps[] | undefined;
 
   if (report) {
     const { value, clientsDetails } = report;
@@ -43,20 +43,8 @@ const TransactionDetailExpandable = ({
 
   return (
     <>
-      <Tr
-      // height="60px"
-      // p="10px"
-      // display="flex"
-      // alignContent="space-between"
-      // alignItems="center"
-      // width="90%"
-      >
-        <Th
-          // width="33%"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+      <Tr>
+        <Th height="60px" alignItems="center">
           <IconButton
             icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
             onClick={handleToggle}
@@ -64,22 +52,10 @@ const TransactionDetailExpandable = ({
             {...addStyle}
           />
         </Th>
-        <Th
-          // width="33%"
-          fontSize="16px"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+        <Th fontSize="16px" height="60px" alignItems="center">
           <Text>{title}</Text>
         </Th>
-        <Th
-          // width="33%"
-          fontSize="16px"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+        <Th fontSize="16px" height="60px" alignItems="center">
           ${totalValue?.toFixed(2)}
         </Th>
       </Tr>
@@ -93,12 +69,14 @@ const TransactionDetailExpandable = ({
                     clientsList.map((client, index) => (
                       <Tr key={index}>
                         <Td>
-                          {client.name + ' ' + client.lastName}
+                          {client.clientId?.name +
+                            ' ' +
+                            client.clientId?.lastName}
                           <Text
                             as="span"
-                            display={client.alias ? 'block' : 'none'}
+                            display={client.clientId?.alias ? 'block' : 'none'}
                           >
-                            {' (' + client.alias + ') '}
+                            {' (' + client.clientId?.alias + ') '}
                           </Text>
                         </Td>
                         <Td>${client.value?.toFixed(2)}</Td>
@@ -134,4 +112,4 @@ const TransactionDetailExpandable = ({
   );
 };
 
-export default TransactionDetailExpandable;
+export default TransactionMDetailExpandable;

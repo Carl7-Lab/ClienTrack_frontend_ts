@@ -17,6 +17,7 @@ export interface PrivateProviderProps {
 export type PrivateContextProps = {
   loadingClients: boolean;
   loadingReport: boolean;
+  loadingReportM: boolean;
   loadingDebtors: boolean;
   loadingClient: boolean;
   loadingKardex: boolean;
@@ -26,18 +27,23 @@ export type PrivateContextProps = {
   resetVar: () => void;
 
   firstMoveDate: string;
-  report: ReportProps;
+  reportByDate: ReportByDateProps;
+  reportM: ReportMProps;
   rowsKardex: RowKardexProps[];
   debtors: DebtorProps[];
-  getReport: ({
+  totalReports: number;
+  reports: ReportProps[];
+  totalRows: number;
+  doReportByDate: ({
     startDate,
     endDate,
   }: {
     startDate?: string | undefined;
     endDate?: string | undefined;
   }) => Promise<void>;
-  getDebtors: () => Promise<void>;
-  totalRows: number;
+  getReports: () => Promise<void>;
+  getReportM: (idReport: string) => Promise<void>;
+  getDebtors: (elapseTime: string) => Promise<void>;
   getKardex: ({
     idClient,
     page,
@@ -170,12 +176,27 @@ export interface ClientReportProps {
   value?: number;
 }
 
+export interface ClientReportMProps {
+  clientId?: {
+    name?: string;
+    lastName?: string;
+    alias?: string;
+    _id?: string;
+  };
+  value?: number;
+}
+
 export interface TransactionDetailProps {
   value?: number;
   clientsDetails?: ClientReportProps[];
 }
 
-export interface ReportProps {
+export interface TransactionMDetailProps {
+  value?: number;
+  clientsDetails?: ClientReportMProps[];
+}
+
+export interface ReportByDateProps {
   purchases?: TransactionDetailProps;
   payments?: {
     value?: number;
@@ -183,6 +204,21 @@ export interface ReportProps {
     purchasesPayDetails?: TransactionDetailProps;
     returnsDetails?: TransactionDetailProps;
   };
+}
+
+export interface ReportMProps {
+  purchases?: TransactionMDetailProps;
+  payments?: {
+    value?: number;
+    paymentsDetails?: TransactionMDetailProps;
+    purchasesPayDetails?: TransactionMDetailProps;
+    returnsDetails?: TransactionMDetailProps;
+  };
+}
+
+export interface ReportProps {
+  _id?: string;
+  name?: string;
 }
 
 export interface GetKardexProps {

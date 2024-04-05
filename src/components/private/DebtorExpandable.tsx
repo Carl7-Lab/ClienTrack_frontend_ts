@@ -55,9 +55,9 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
       </Tr>
       {isOpen && (
         <Tr backgroundColor="gray.100">
-          <Td colSpan={4}>
-            <Box p="20px" width="97%" mx="auto">
-              <Table variant="simple" size="sm">
+          <Td colSpan={3}>
+            <Box p="0px" width="90%" mx="auto">
+              <Table variant="unstyled" size="sm">
                 <Tbody>
                   <Tr>
                     <Td colSpan={3}>Ultimo Movimiento</Td>
@@ -98,7 +98,7 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
                             <Text>{lastRowKardex?.description}</Text>
                           </Flex>
                           {lastRowKardex?.typeModel === 'Purchase' && (
-                            <Table variant="simple" size="sm">
+                            <Table variant="unstyled" size="sm">
                               <Thead>
                                 <Tr>
                                   <Th>Articulo</Th>

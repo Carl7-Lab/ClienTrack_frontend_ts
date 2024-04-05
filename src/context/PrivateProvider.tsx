@@ -11,6 +11,8 @@ import {
   GetKardexProps,
   PrivateContextProps,
   PrivateProviderProps,
+  ReportByDateProps,
+  ReportMProps,
   ReportProps,
   RowKardexProps,
 } from '../interface/PrivateProps';
@@ -36,15 +38,19 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
   const [client, setClient] = useState<ClientPropsBD>({});
   const [totalClients, setTotalClients] = useState(0);
   const [address, setAddress] = useState<AddressPropsBD>({});
-  const [report, setReport] = useState<ReportProps>({});
+  const [reports, setReports] = useState<ReportProps[]>([]);
+  const [totalReports, setTotalReports] = useState(0);
+  const [reportByDate, setReportByDate] = useState<ReportByDateProps>({});
+  const [reportM, setReportM] = useState<ReportMProps>({});
   const [rowsKardex, setRowsKardex] = useState<RowKardexProps[]>([]);
   const [firstMoveDate, setFirstMoveDate] = useState('');
   const [totalRows, setTotalRows] = useState(0);
   const [debtors, setDebtors] = useState<DebtorProps[]>([]);
 
   const [loadingClients, setLoadingClients] = useState(true);
-  const [loadingReport, setLoadingReport] = useState(true);
-  const [loadingDebtors, setLoadingDebtors] = useState(true);
+  const [loadingReport, setLoadingReport] = useState(false);
+  const [loadingReportM, setLoadingReportM] = useState(false);
+  const [loadingDebtors, setLoadingDebtors] = useState(false);
   const [loadingClient, setLoadingClient] = useState(true);
   const [loadingKardex, setLoadingKardex] = useState(true);
 
@@ -158,7 +164,54 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     setLoadingClient(false);
   };
 
-  const getReport = async ({
+  const getReports = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const { data } = await clientAxios('/analytics/reports', config);
+      setReports(data.data.reports);
+      setTotalReports(data.data.totalReports);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      // console.log(error.response.data.message);
+      setTotalReports(error.response.data.data.totalReports);
+    }
+  };
+
+  const getReportM = async (idReport: string) => {
+    setLoadingReportM(true);
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const { data } = await clientAxios(
+        `/analytics/reports/${idReport}`,
+        config,
+      );
+      setReportM(data.data.report);
+      console.log('report del data', data.data.report);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    setLoadingReportM(false);
+  };
+
+  const doReportByDate = async ({
     startDate,
     endDate,
   }: {
@@ -181,10 +234,11 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
         `/analytics/report/?startDate=${startDate || ''}&endDate=${endDate || ''}`,
         config,
       );
-      setReport(data.data);
+      console.log(data.data);
+      setReportByDate(data.data);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setReport({});
+      setReportByDate({});
       toast({
         title: error.response.data.message,
         status: 'error',
@@ -238,7 +292,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     setLoadingKardex(false);
   };
 
-  const getDebtors = async () => {
+  const getDebtors = async (elapseTime: string) => {
     setLoadingDebtors(true);
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -250,8 +304,10 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     };
 
     try {
-      const { data } = await clientAxios(`/analytics/client-reports`, config);
-      // console.log('obtener deudores', data.data.debtors);
+      const { data } = await clientAxios(
+        `/analytics/client-reports/?elapseTime=${elapseTime}`,
+        config,
+      );
       setDebtors(data.data.debtors);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -544,7 +600,7 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
     setClient({});
     setTotalClients(0);
     setAddress({});
-    setReport({});
+    setReportByDate({});
     setRowsKardex([]);
     setFirstMoveDate('');
     setTotalRows(0);
@@ -556,20 +612,26 @@ export const PrivateProvider = ({ children }: PrivateProviderProps) => {
       value={{
         loadingClients,
         loadingReport,
+        loadingReportM,
         loadingDebtors,
         loadingClient,
         loadingKardex,
 
         pathname,
         totalClients,
-        report,
+        reportByDate,
+        reportM,
         debtors,
         resetVar,
 
         totalRows,
         rowsKardex,
         firstMoveDate,
-        getReport,
+        reports,
+        totalReports,
+        doReportByDate,
+        getReports,
+        getReportM,
         getDebtors,
         getKardex,
 

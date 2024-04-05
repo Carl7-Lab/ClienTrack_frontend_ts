@@ -30,7 +30,9 @@ const ClientKardex = ({ id }: { id: string }) => {
   const limit = 6;
 
   const [startDate, setStartDate] = useState<string>(formatDate(firstMoveDate));
-  const [endDate, setEndDate] = useState<string>(formatDate(new Date()));
+  const [endDate, setEndDate] = useState<string>(
+    formatDate(new Date(new Date().getTime() - 300 * 60 * 1000)),
+  );
 
   useEffect(() => {
     getKardex({

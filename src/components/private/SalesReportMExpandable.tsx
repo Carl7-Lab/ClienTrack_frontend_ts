@@ -1,22 +1,22 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
+import { TransactionMDetailProps } from '../../interface/PrivateProps';
 import {
-  Box,
   IconButton,
-  Table,
-  Tbody,
-  Td,
-  Text,
   Th,
   Tr,
+  Text,
+  Td,
+  Box,
+  Table,
+  Tbody,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { addStyle } from '../authFormik/ButtonCustom';
-import { TransactionDetailProps } from '../../interface/PrivateProps';
 
-const SalesReportExpandable = ({
+const SalesReportMExpandable = ({
   report,
 }: {
-  report: TransactionDetailProps | undefined;
+  report: TransactionMDetailProps | undefined;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,12 +58,14 @@ const SalesReportExpandable = ({
                     report.clientsDetails.map((client, index) => (
                       <Tr key={index}>
                         <Td>
-                          {client.name + ' ' + client.lastName}
+                          {client.clientId?.name +
+                            ' ' +
+                            client.clientId?.lastName}
                           <Text
                             as="span"
-                            display={client.alias ? 'block' : 'none'}
+                            display={client.clientId?.alias ? 'block' : 'none'}
                           >
-                            {' (' + client.alias + ') '}
+                            {' (' + client.clientId?.alias + ') '}
                           </Text>
                         </Td>
                         <Td>${client.value?.toFixed(2)}</Td>
@@ -84,4 +86,4 @@ const SalesReportExpandable = ({
   );
 };
 
-export default SalesReportExpandable;
+export default SalesReportMExpandable;

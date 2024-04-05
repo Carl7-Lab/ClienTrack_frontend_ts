@@ -1,7 +1,11 @@
-import { Box } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 
 import useCustomTitle from '../../hooks/public/useCustomTitle';
-import { DebtorCard, ReportCard } from '../../components/private';
+import {
+  DebtorCard,
+  ReportCard,
+  ReportMonthlyCard,
+} from '../../components/private';
 
 const Reports = () => {
   useCustomTitle('Reportes | ClienTrack');
@@ -9,10 +13,11 @@ const Reports = () => {
   return (
     <Box minH="60.93vh" mb={{ base: '20px', sm: '110px', md: '20px' }}>
       <Box mx={{ base: '10px', sm: '20px', md: '30px', lg: '10%' }}>
-        <Box display={{ md: 'block', lg: 'flex' }}>
+        <SimpleGrid columns={2} spacingX={10} spacingY={5}>
           <ReportCard />
           <DebtorCard />
-        </Box>
+          <ReportMonthlyCard />
+        </SimpleGrid>
       </Box>
     </Box>
   );

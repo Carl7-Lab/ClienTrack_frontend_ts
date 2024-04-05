@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { formatDate } from '../../helpers/formatDate';
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -18,33 +19,49 @@ import {
   DateRangePicker,
   SalesReportExpandable,
 } from '.';
+import { addStyle } from '../authFormik/ButtonCustom';
+import { FaSearch } from 'react-icons/fa';
 
 const ReportCard = () => {
-  const startOfMonth = new Date();
+  const startOfMonth = new Date(new Date().getTime() - 300 * 60 * 1000);
   startOfMonth.setDate(1);
 
+  const [viewReport, setViewReport] = useState(false);
   const [startDate, setStartDate] = useState<string>(formatDate(startOfMonth));
   const [endDate, setEndDate] = useState<string>(formatDate(new Date()));
 
-  const { report, loadingReport, getReport } = usePrivate();
+  const { reportByDate, loadingReport, doReportByDate } = usePrivate();
 
-  useEffect(() => {
-    getReport({ startDate: startDate, endDate: endDate });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startDate, endDate]);
+  const handleReportByDate = async () => {
+    doReportByDate({ startDate: startDate, endDate: endDate });
+    setViewReport(true);
+  };
 
   return (
     <Card
       my="10px"
       mx={{ base: '10px', md: '20px', lg: '1%' }}
-      width={{ md: 'full', lg: '50%' }}
+      width="100%"
       boxShadow="xs"
     >
-      <CardHeader>
-        <Heading size="md">Reporte</Heading>
+      <CardHeader
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Heading size="md">Reporte Por Fecha</Heading>
+        <Button
+          {...addStyle}
+          px="5px"
+          leftIcon={<FaSearch />}
+          onClick={handleReportByDate}
+          isLoading={loadingReport}
+        >
+          Generar Reporte
+        </Button>
       </CardHeader>
 
-      <CardBody pt="0px">
+      <CardBody pt="0px" maxHeight="470px" overflow="auto">
         <Table variant="simple" size="sm" position="relative" right="9px">
           <Thead>
             <Tr>
@@ -54,31 +71,31 @@ const ReportCard = () => {
                   endDate={endDate}
                   setStartDate={setStartDate}
                   setEndDate={setEndDate}
-                  loading={loadingReport}
                 />
               </Th>
             </Tr>
           </Thead>
           <Tbody>
-            {loadingReport ? (
-              <>
-                <Tr>
-                  <Th colSpan={3}>
-                    <Skeleton height="60px" />
-                  </Th>
-                </Tr>
-                <Tr>
-                  <Th colSpan={3}>
-                    <Skeleton height="60px" />
-                  </Th>
-                </Tr>
-              </>
-            ) : (
-              <>
-                <SalesReportExpandable report={report.purchases} />
-                <CollectionsReportExpandable report={report.payments} />
-              </>
-            )}
+            {viewReport &&
+              (loadingReport ? (
+                <>
+                  <Tr>
+                    <Th colSpan={3}>
+                      <Skeleton height="60px" />
+                    </Th>
+                  </Tr>
+                  <Tr>
+                    <Th colSpan={3}>
+                      <Skeleton height="60px" />
+                    </Th>
+                  </Tr>
+                </>
+              ) : (
+                <>
+                  <SalesReportExpandable report={reportByDate.purchases} />
+                  <CollectionsReportExpandable report={reportByDate.payments} />
+                </>
+              ))}
           </Tbody>
         </Table>
       </CardBody>
