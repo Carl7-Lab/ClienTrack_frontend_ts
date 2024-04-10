@@ -29,7 +29,6 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
     setMore(!more);
   };
 
-  // console.log('ultima transaccion', lastRowKardex);
   return (
     <>
       <Tr>
@@ -49,7 +48,7 @@ const DebtorExpandable = ({ debtor }: { debtor: DebtorProps }) => {
             </Text>
           </Text>
         </Th>
-        <Th fontSize="16px" height="60px" alignItems="center">
+        <Th fontSize="16px" height="60px" alignItems="center" textAlign="right">
           ${lastRowKardex?.balance?.toFixed(2)}
         </Th>
       </Tr>

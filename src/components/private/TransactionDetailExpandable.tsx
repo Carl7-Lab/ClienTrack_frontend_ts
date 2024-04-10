@@ -43,20 +43,8 @@ const TransactionDetailExpandable = ({
 
   return (
     <>
-      <Tr
-      // height="60px"
-      // p="10px"
-      // display="flex"
-      // alignContent="space-between"
-      // alignItems="center"
-      // width="90%"
-      >
-        <Th
-          // width="33%"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+      <Tr>
+        <Th height="60px" alignItems="center">
           <IconButton
             icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
             onClick={handleToggle}
@@ -64,22 +52,10 @@ const TransactionDetailExpandable = ({
             {...addStyle}
           />
         </Th>
-        <Th
-          // width="33%"
-          fontSize="16px"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+        <Th fontSize="16px" height="60px" alignItems="center">
           <Text>{title}</Text>
         </Th>
-        <Th
-          // width="33%"
-          fontSize="16px"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+        <Th fontSize="16px" height="60px" alignItems="center" textAlign="right">
           ${totalValue?.toFixed(2)}
         </Th>
       </Tr>
@@ -101,7 +77,7 @@ const TransactionDetailExpandable = ({
                             {' (' + client.alias + ') '}
                           </Text>
                         </Td>
-                        <Td>${client.value?.toFixed(2)}</Td>
+                        <Td textAlign="right">${client.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
                   {clientsList?.length === 0 &&

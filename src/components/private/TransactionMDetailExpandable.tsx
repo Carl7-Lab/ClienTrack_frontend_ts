@@ -55,7 +55,7 @@ const TransactionMDetailExpandable = ({
         <Th fontSize="16px" height="60px" alignItems="center">
           <Text>{title}</Text>
         </Th>
-        <Th fontSize="16px" height="60px" alignItems="center">
+        <Th fontSize="16px" height="60px" alignItems="center" textAlign="right">
           ${totalValue?.toFixed(2)}
         </Th>
       </Tr>
@@ -79,7 +79,7 @@ const TransactionMDetailExpandable = ({
                             {' (' + client.clientId?.alias + ') '}
                           </Text>
                         </Td>
-                        <Td>${client.value?.toFixed(2)}</Td>
+                        <Td textAlign="right">${client.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
                   {clientsList?.length === 0 &&

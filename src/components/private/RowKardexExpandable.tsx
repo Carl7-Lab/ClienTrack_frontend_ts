@@ -45,9 +45,12 @@ const RowKardexExpandable = ({
         </Td>
         <Td>{date && formatDate(date)}</Td>
         <Td>{description}</Td>
-        <Td>${debit?.toFixed(2)}</Td>
-        <Td>${credit?.toFixed(2)}</Td>
-        <Td style={{ fontWeight: isFirst ? 'bold' : 'normal' }}>
+        <Td textAlign="right">${debit?.toFixed(2)}</Td>
+        <Td textAlign="right">${credit?.toFixed(2)}</Td>
+        <Td
+          textAlign="right"
+          style={{ fontWeight: isFirst ? 'bold' : 'normal' }}
+        >
           ${balance?.toFixed(2)}
         </Td>
       </Tr>
@@ -81,7 +84,7 @@ const RowKardexExpandable = ({
                       <Tr key={item._id}>
                         <Td>{item.name}</Td>
                         <Td>{item.description}</Td>
-                        <Td>${item.value?.toFixed(2)}</Td>
+                        <Td textAlign="right">${item.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
                 </Tbody>

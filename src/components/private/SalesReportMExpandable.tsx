@@ -38,20 +38,14 @@ const SalesReportMExpandable = ({
         <Th fontSize="16px" height="60px" alignItems="center">
           <Text>Ventas</Text>
         </Th>
-        <Th fontSize="16px" height="60px" alignItems="center">
+        <Th fontSize="16px" height="60px" alignItems="center" textAlign="right">
           ${report?.value?.toFixed(2)}
         </Th>
       </Tr>
       {isOpen && (
         <Tr backgroundColor="gray.100">
           <Td colSpan={3}>
-            <Box
-              py="10px"
-              width="100%"
-              // height="300px"
-              maxHeight="300px"
-              overflow="auto"
-            >
+            <Box py="10px" width="100%" maxHeight="300px" overflow="auto">
               <Table variant="simple" size="sm">
                 <Tbody>
                   {report?.clientsDetails &&
@@ -68,7 +62,7 @@ const SalesReportMExpandable = ({
                             {' (' + client.clientId?.alias + ') '}
                           </Text>
                         </Td>
-                        <Td>${client.value?.toFixed(2)}</Td>
+                        <Td textAlign="right">${client.value?.toFixed(2)}</Td>
                       </Tr>
                     ))}
                   {report?.clientsDetails?.length === 0 && (

@@ -41,14 +41,7 @@ const CollectionsReportExpandable = ({
 
   return (
     <>
-      <Tr
-      // height="60px"
-      // p="10px"
-      // display="flex"
-      // alignContent="space-between"
-      // alignItems="center"
-      // width="100%"
-      >
+      <Tr>
         <Th width="33%" height="60px" display="flex" alignItems="center">
           <IconButton
             icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -57,22 +50,10 @@ const CollectionsReportExpandable = ({
             {...addStyle}
           />
         </Th>
-        <Th
-          // width="33%"
-          fontSize="16px"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+        <Th fontSize="16px" height="60px" alignItems="center">
           <Text>Cobros</Text>
         </Th>
-        <Th
-          // width="33%"
-          fontSize="16px"
-          height="60px"
-          // display="flex"
-          alignItems="center"
-        >
+        <Th fontSize="16px" height="60px" alignItems="center" textAlign="right">
           ${report?.value?.toFixed(2)}
         </Th>
       </Tr>

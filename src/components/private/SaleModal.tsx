@@ -81,6 +81,7 @@ const SaleModal = () => {
                         fontSize="17px"
                         fontWeight="bold"
                         textColor={colors.two}
+                        width="104px"
                       >
                         {label}
                       </FormLabel>
@@ -162,6 +163,17 @@ const SaleModal = () => {
                       </VStack>
                     )}
                   </FieldArray>
+
+                  <FormLabel
+                    fontSize="17px"
+                    fontWeight="bold"
+                    textColor={colors.two}
+                  >
+                    Total:{' '}
+                    <Text as="span">
+                      {values.items.reduce((acc, item) => acc + item.value, 0)}
+                    </Text>
+                  </FormLabel>
 
                   <InputModal
                     label="Nota"

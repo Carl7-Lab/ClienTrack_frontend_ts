@@ -3,6 +3,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  HStack,
   Heading,
   Select,
   Skeleton,
@@ -51,26 +52,27 @@ const ReportMonthlyCard = () => {
         <Table variant="simple" size="sm">
           <Thead>
             <Tr height="45px">
-              <Th>
-                <Select value={selectedOption} onChange={handleSelectChange}>
-                  <option value="">-- Seleccione --</option>
-                  {reports.map((report, index) => (
-                    <option key={index} value={report._id}>
-                      {report.name}
-                    </option>
-                  ))}
-                </Select>
-              </Th>
-              <Th>
-                <Button
-                  {...addStyle}
-                  px="5px"
-                  leftIcon={<FaSearch />}
-                  onClick={handleGetReport}
-                  isLoading={loadingReportM}
-                >
-                  Buscar
-                </Button>
+              <Th colSpan={3}>
+                <HStack>
+                  <Select value={selectedOption} onChange={handleSelectChange}>
+                    <option value="">-- Seleccione --</option>
+                    {reports.map((report, index) => (
+                      <option key={index} value={report._id}>
+                        {report.name}
+                      </option>
+                    ))}
+                  </Select>
+
+                  <Button
+                    {...addStyle}
+                    px="15px"
+                    leftIcon={<FaSearch />}
+                    onClick={handleGetReport}
+                    isLoading={loadingReportM}
+                  >
+                    Buscar
+                  </Button>
+                </HStack>
               </Th>
             </Tr>
           </Thead>

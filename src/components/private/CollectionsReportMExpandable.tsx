@@ -53,7 +53,7 @@ const CollectionsReportMExpandable = ({
         <Th fontSize="16px" height="60px" alignItems="center">
           <Text>Cobros</Text>
         </Th>
-        <Th fontSize="16px" height="60px" alignItems="center">
+        <Th fontSize="16px" height="60px" alignItems="center" textAlign="right">
           ${report?.value?.toFixed(2)}
         </Th>
       </Tr>

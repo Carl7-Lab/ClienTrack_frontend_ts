@@ -32,10 +32,8 @@ const DebtorCard = () => {
 
   const handleSearching = async () => {
     if (!loadingDebtors && selectedOption !== '') {
-      // setIsSearching(true);
       setViewDebtors(true);
       await getDebtors(selectedOption);
-      // setIsSearching(false);
     }
   };
 
