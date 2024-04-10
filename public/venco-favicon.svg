@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(0.8046875,0,0,0.8046875,12.643985452963783,9.10473790322581)">
+    <svg viewBox="0 0 145 155" data-background-color="#ffffff" preserveAspectRatio="xMidYMid meet" height="136" width="128" xmlns="http://www.w3.org/2000/svg">
+      <g id="tight-bounds" transform="matrix(1,0,0,1,-0.20269796776454996,0.25)">
+        <svg viewBox="0 0 145.40539593552907 154.5" height="154.5" width="145.40539593552907">
+          <g>
+            <svg viewBox="0 0 145.40539593552907 154.5" height="154.5" width="145.40539593552907">
+              <g>
+                <svg viewBox="0 0 145.40539593552907 154.5" height="154.5" width="145.40539593552907">
+                  <g id="textblocktransform">
+                    <svg viewBox="0 0 145.40539593552907 154.5" height="154.5" width="145.40539593552907" id="textblock">
+                      <g>
+                        <svg viewBox="0 0 145.40539593552907 154.5" height="154.5" width="145.40539593552907">
+                          <g transform="matrix(1,0,0,1,0,0)">
+                            <svg width="145.40539593552907" viewBox="0 -34.84 32.79 34.84" height="154.5" data-palette-color="#0023ff">
+                              <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 3.2px;" x="38.52" y="-26.647">Escriba aquí su texto</text>
+                              <ellipse style="fill: rgb(0, 35, 255); stroke: rgb(0, 35, 255); transform-origin: 16.349px -17.364px;" cx="16.349" cy="-17.364" rx="15.65" ry="15.97"/>
+                              <text style="fill: rgb(255, 255, 255); font-family: Arial, sans-serif; font-size: 20.4px; font-weight: 700; line-height: 27.5956px; stroke-width: 2.87454px; white-space: pre; transform-origin: -17.588px -49.043px;" x="2.944" y="-10.092">VC</text>
+                              <text style="fill: rgb(255, 255, 255); font-family: Arial, sans-serif; font-size: 3.2px; font-weight: 700; white-space: pre;" x="41.951" y="-17.104">Escriba aquí su texto</text>
+                            </svg>
+                          </g>
+                        </svg>
+                      </g>
+                    </svg>
+                  </g>
+                </svg>
+              </g>
+            </svg>
+          </g>
+        </svg>
+        <rect width="145.40539593552907" height="154.5" fill="none" stroke="none" visibility="hidden"/>
+      </g>
+    </svg>
+  </g>
+</svg>

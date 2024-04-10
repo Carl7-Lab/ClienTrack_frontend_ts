@@ -4,7 +4,7 @@ import usePrivate from '../../hooks/private/usePrivate';
 
 import { navigationLinks } from '../../helpers/variable';
 import { colors } from '../../styles/colors';
-import logo from '/logo-no-background.png';
+import logo from '/venco-logo-transparent.png';
 
 const Header = ({ page }: { page: string }) => {
   const { pathname } = usePrivate();
@@ -30,6 +30,7 @@ const Header = ({ page }: { page: string }) => {
               objectFit="fill"
               src={logo}
               alt="Logo"
+              px="20px"
             />
           </Link>
         </Text>

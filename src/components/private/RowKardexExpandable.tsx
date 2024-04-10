@@ -72,9 +72,9 @@ const RowKardexExpandable = ({
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>
-                    <Th>Articulo</Th>
-                    <Th>Descripcion</Th>
-                    <Th>Precio</Th>
+                    <Th minWidth="125px">Articulo</Th>
+                    <Th minWidth="250px">Descripcion</Th>
+                    <Th width="120px">Precio</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
